@@ -1,0 +1,136 @@
+{
+  "doc_type": "pipeline",
+  "version": "3.0",
+  "json_schema": "http://api.dataplatform.ibm.com/schemas/common-pipeline/pipeline-flow/pipeline-flow-v3-schema.json",
+  "id": "elyra-auto-generated-pipeline",
+  "primary_pipeline": "primary",
+  "pipelines": [
+    {
+      "id": "primary",
+      "nodes": [
+        {
+          "id": "8a43f7ec-e001-4f39-964d-a3437cb3b797",
+          "type": "execution_node",
+          "op": "execute-notebook-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "python_notebook.ipynb",
+              "runtime_image": "tensorflow/tensorflow:2.8.0",
+              "outputs": [],
+              "env_vars": [],
+              "dependencies": [],
+              "include_subdirectories": false
+            },
+            "label": "",
+            "ui_data": {
+              "label": "python_notebook.ipynb",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 167,
+              "y_pos": 230.00000762939453,
+              "description": "Run notebook file"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "105b829d-832f-4f54-ab5d-ba464ce15abe",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "python_script.py",
+              "runtime_image": "tensorflow/tensorflow:2.8.0",
+              "outputs": [],
+              "env_vars": [],
+              "dependencies": [],
+              "include_subdirectories": false
+            },
+            "label": "",
+            "ui_data": {
+              "label": "python_script.py",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 513,
+              "y_pos": 229,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "7d95a20d-5422-4a34-91cd-5e47f6ac6b50",
+                  "node_id_ref": "8a43f7ec-e001-4f39-964d-a3437cb3b797",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "app_data": {
+        "ui_data": {
+          "comments": []
+        },
+        "version": 8,
+        "properties": {
+          "name": "validate_python",
+          "runtime": "Generic",
+          "description": "Use this pipeline to test your JupyterLab, Kubeflow Pipelines, or Apache Airflow environment setup.\n\nIf your setup is correct, this pipeline should run as is:\n - To test JupyterLab, click the \"run\" button and choose \"Local Runtime\" as Runtime Platform.\n - To test Kubeflow Pipelines, create a Kubeflow Pipelines runtime configuration, then click the \"run\" button and select \"Kubeflow Pipelines\" as Runtime Platform.\n - To test Apache Airflow, create an Apache Airflow runtime configuration, then click the \"run\" button and select \"Apache Airflow\" as Runtime Platform."
+        }
+      },
+      "runtime_ref": ""
+    }
+  ],
+  "schemas": []
+}
