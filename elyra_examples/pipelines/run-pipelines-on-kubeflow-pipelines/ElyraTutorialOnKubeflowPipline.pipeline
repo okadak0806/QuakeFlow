@@ -1,0 +1,154 @@
+{
+  "doc_type": "pipeline",
+  "version": "3.0",
+  "json_schema": "http://api.dataplatform.ibm.com/schemas/common-pipeline/pipeline-flow/pipeline-flow-v3-schema.json",
+  "id": "elyra-auto-generated-pipeline",
+  "primary_pipeline": "primary",
+  "pipelines": [
+    {
+      "id": "primary",
+      "nodes": [
+        {
+          "id": "8b6e1fea-530a-4cc5-bbff-2027941e4b0e",
+          "type": "execution_node",
+          "op": "local-file-catalog:82a43e39281c",
+          "app_data": {
+            "component_parameters": {
+              "url": {
+                "widget": "string",
+                "value": "https://raw.githubusercontent.com/elyra-ai/examples/main/pipelines/run-pipelines-on-kubeflow-pipelines/data/data.csv"
+              },
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "component_source": "{\"catalog_type\": \"local-file-catalog\", \"component_ref\": {\"base_dir\": \"/home/okadak/examples/pipelines/run-pipelines-on-kubeflow-pipelines/components/\", \"path\": \"download-file.yaml\"}}",
+            "ui_data": {
+              "label": "Download File2",
+              "image": "/static/elyra/kubeflow.svg",
+              "x_pos": 68,
+              "y_pos": 148.5,
+              "description": "Downloads a file from a public HTTP/S URL using a GET request."
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "5c7e55fd-0d85-41c1-ba5b-57ef7bae034b",
+          "type": "execution_node",
+          "op": "local-file-catalog:ddc70829d74b",
+          "app_data": {
+            "component_parameters": {
+              "input_file": {
+                "widget": "inputpath",
+                "value": {
+                  "value": "8b6e1fea-530a-4cc5-bbff-2027941e4b0e",
+                  "option": "output_downloaded_file"
+                }
+              },
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "component_source": "{\"catalog_type\": \"local-file-catalog\", \"component_ref\": {\"base_dir\": \"/home/okadak/examples/pipelines/run-pipelines-on-kubeflow-pipelines/components/\", \"path\": \"count-rows .yaml\"}}",
+            "ui_data": {
+              "label": "Count Rows",
+              "image": "/static/elyra/kubeflow.svg",
+              "x_pos": 329,
+              "y_pos": 148.5,
+              "description": "Count the number of rows in the input file"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "655763c2-5718-401f-965e-14eb8cd50b70",
+                  "node_id_ref": "8b6e1fea-530a-4cc5-bbff-2027941e4b0e",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "app_data": {
+        "ui_data": {
+          "comments": []
+        },
+        "version": 8,
+        "runtime_type": "KUBEFLOW_PIPELINES",
+        "properties": {
+          "name": "ElyraTutorialOnKubeflowPipline",
+          "runtime": "Kubeflow Pipelines",
+          "pipeline_defaults": {
+            "kubernetes_tolerations": [],
+            "kubernetes_pod_annotations": [],
+            "kubernetes_pod_labels": [],
+            "mounted_volumes": [],
+            "kubernetes_shared_mem_size": {},
+            "env_vars": [],
+            "kubernetes_secrets": []
+          }
+        }
+      },
+      "runtime_ref": ""
+    }
+  ],
+  "schemas": []
+}
