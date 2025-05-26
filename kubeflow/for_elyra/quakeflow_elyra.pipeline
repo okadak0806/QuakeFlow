@@ -1,0 +1,904 @@
+{
+  "doc_type": "pipeline",
+  "version": "3.0",
+  "json_schema": "http://api.dataplatform.ibm.com/schemas/common-pipeline/pipeline-flow/pipeline-flow-v3-schema.json",
+  "id": "quakeflow-pipeline",
+  "primary_pipeline": "primary",
+  "pipelines": [
+    {
+      "id": "primary",
+      "nodes": [
+        {
+          "id": "config-node",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [],
+              "include_subdirectories": false,
+              "outputs": [
+                "config.json",
+                "index.json",
+                "datetime.json"
+              ],
+              "env_vars": [
+                "REGION_NAME=Ridgecrest",
+                "NUM_PARALLEL=1",
+                "BUCKET_NAME=catalogs",
+                "S3_URL=minio-service:9000",
+                "SECURE=false"
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "scripts/01_set_config.py",
+              "runtime_image": "zhuwq0/quakeflow-env:latest"
+            },
+            "label": "Set Configuration",
+            "ui_data": {
+              "label": "Set Configuration",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 43,
+              "y_pos": 22,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "download-events-node",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "scripts/02_download_events.py",
+              "runtime_image": "zhuwq0/quakeflow-env:latest",
+              "outputs": [
+                "standard_catalog.csv"
+              ],
+              "env_vars": [
+                "BUCKET_NAME=catalogs",
+                "S3_URL=minio-service:9000",
+                "SECURE=false"
+              ],
+              "dependencies": [],
+              "include_subdirectories": false,
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "label": "Download Events",
+            "ui_data": {
+              "label": "Download Events",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 91,
+              "y_pos": 343.9999694824219,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "config-to-events",
+                  "node_id_ref": "config-node",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "download-stations-node",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "scripts/03_download_stations.py",
+              "runtime_image": "zhuwq0/quakeflow-env:latest",
+              "outputs": [
+                "stations.json",
+                "stations.pkl"
+              ],
+              "env_vars": [
+                "BUCKET_NAME=catalogs",
+                "S3_URL=minio-service:9000",
+                "SECURE=false"
+              ],
+              "dependencies": [],
+              "include_subdirectories": false,
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "label": "Download Stations",
+            "ui_data": {
+              "label": "Download Stations",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 300,
+              "y_pos": 250,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "config-to-stations",
+                  "node_id_ref": "config-node",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "download-waveforms-node",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "scripts/04_download_waveforms.py",
+              "runtime_image": "zhuwq0/quakeflow-env:latest",
+              "outputs": [
+                "waveforms/"
+              ],
+              "env_vars": [
+                "NODE_I=0",
+                "DATA_PATH=/tmp",
+                "BUCKET_NAME=waveforms",
+                "S3_URL=minio-service:9000",
+                "SECURE=false"
+              ],
+              "dependencies": [],
+              "include_subdirectories": false,
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "label": "Download Waveforms",
+            "ui_data": {
+              "label": "Download Waveforms",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 500,
+              "y_pos": 250,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "stations-to-waveforms",
+                  "node_id_ref": "download-stations-node",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "phasenet-node",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "scripts/05_phasenet_picking.py",
+              "runtime_image": "okadak86/phasenet-api:1.0",
+              "outputs": [
+                "picks.csv"
+              ],
+              "env_vars": [
+                "MODEL_PATH=/opt/model/190703-214543",
+                "FORMAT=mseed_array"
+              ],
+              "dependencies": [],
+              "include_subdirectories": false,
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "label": "PhaseNet Picking",
+            "ui_data": {
+              "label": "PhaseNet Picking",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 700,
+              "y_pos": 250,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "waveforms-to-phasenet",
+                  "node_id_ref": "download-waveforms-node",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "gamma-node",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "scripts/06_gamma_association.py",
+              "runtime_image": "zhuwq0/gamma-api:1.0",
+              "outputs": [
+                "gamma_catalog.csv",
+                "gamma_picks.csv"
+              ],
+              "env_vars": [
+                "NODE_I=0",
+                "BUCKET_NAME=catalogs",
+                "S3_URL=minio-service:9000",
+                "SECURE=false"
+              ],
+              "dependencies": [],
+              "include_subdirectories": false,
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "label": "GaMMA Association",
+            "ui_data": {
+              "label": "GaMMA Association",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 900,
+              "y_pos": 250,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "phasenet-to-gamma",
+                  "node_id_ref": "phasenet-node",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "convert-station-node",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "scripts/07_convert_station.py",
+              "runtime_image": "zhuwq0/quakeflow-env:latest",
+              "outputs": [
+                "stations.dat"
+              ],
+              "env_vars": [
+                "BUCKET_NAME=catalogs",
+                "S3_URL=minio-service:9000",
+                "SECURE=false"
+              ],
+              "dependencies": [],
+              "include_subdirectories": false,
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "label": "Convert Station Format",
+            "ui_data": {
+              "label": "Convert Station Format",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 300,
+              "y_pos": 400,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "stations-to-convert",
+                  "node_id_ref": "download-stations-node",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "convert-phase-node",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "scripts/08_convert_phase.py",
+              "runtime_image": "zhuwq0/quakeflow-env:latest",
+              "outputs": [
+                "phase.pha"
+              ],
+              "env_vars": [
+                "NODE_I=0",
+                "BUCKET_NAME=catalogs",
+                "S3_URL=minio-service:9000",
+                "SECURE=false"
+              ],
+              "dependencies": [],
+              "include_subdirectories": false,
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "label": "Convert Phase Format",
+            "ui_data": {
+              "label": "Convert Phase Format",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 900,
+              "y_pos": 400,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "gamma-to-convert-phase",
+                  "node_id_ref": "gamma-node",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "ph2dt-node",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "scripts/09_ph2dt.py",
+              "runtime_image": "zhuwq0/hypodd-api:1.0",
+              "outputs": [
+                "dt.ct",
+                "event.sel"
+              ],
+              "env_vars": [
+                "NODE_I=0",
+                "BUCKET_NAME=catalogs",
+                "S3_URL=minio-service:9000",
+                "SECURE=false"
+              ],
+              "dependencies": [],
+              "include_subdirectories": false,
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "label": "PH2DT",
+            "ui_data": {
+              "label": "PH2DT",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 1100,
+              "y_pos": 400,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "convert-phase-to-ph2dt",
+                  "node_id_ref": "convert-phase-node",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "hypodd-node",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "scripts/10_hypodd.py",
+              "runtime_image": "zhuwq0/hypodd-api:1.0",
+              "outputs": [
+                "hypodd.reloc"
+              ],
+              "env_vars": [
+                "NODE_I=0",
+                "BUCKET_NAME=catalogs",
+                "S3_URL=minio-service:9000",
+                "SECURE=false"
+              ],
+              "dependencies": [],
+              "include_subdirectories": false,
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "label": "HypoDD Relocation",
+            "ui_data": {
+              "label": "HypoDD Relocation",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 1300,
+              "y_pos": 400,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "ph2dt-to-hypodd",
+                  "node_id_ref": "ph2dt-node",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "visualization-node",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "filename": "scripts/11_visualization.py",
+              "runtime_image": "zhuwq0/quakeflow-env:latest",
+              "outputs": [
+                "plots/"
+              ],
+              "env_vars": [
+                "BUCKET_NAME=catalogs",
+                "S3_URL=minio-service:9000",
+                "SECURE=false"
+              ],
+              "dependencies": [],
+              "include_subdirectories": false,
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": []
+            },
+            "label": "Visualization",
+            "ui_data": {
+              "label": "Visualization",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 1100,
+              "y_pos": 550,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "hypodd-to-viz",
+                  "node_id_ref": "hypodd-node",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "6418e7af-a8fe-48f4-a3f9-77a0191d50e9",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [],
+              "include_subdirectories": false,
+              "outputs": [],
+              "env_vars": [
+                {
+                  "env_var": "REGION_NAME"
+                },
+                {
+                  "env_var": "NUM_PARALLEL"
+                },
+                {
+                  "env_var": "BUCKET_NAME"
+                },
+                {
+                  "env_var": "S3_URL"
+                },
+                {
+                  "env_var": "SECURE"
+                }
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "scripts/01_set_config.py",
+              "runtime_image": "zhuwq0/quakeflow-env:latest"
+            },
+            "ui_data": {
+              "label": "01_set_config.py",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 39.558990478515625,
+              "y_pos": 80.0486068725586,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "app_data": {
+        "ui_data": {
+          "comments": []
+        },
+        "version": 8,
+        "runtime_type": "KUBEFLOW_PIPELINES",
+        "properties": {
+          "name": "quakeflow_elyra",
+          "runtime": "Kubeflow Pipelines",
+          "description": "Earthquake detection and analysis workflow using QuakeFlow",
+          "pipeline_defaults": {
+            "kubernetes_tolerations": [],
+            "kubernetes_pod_annotations": [],
+            "kubernetes_shared_mem_size": {},
+            "kubernetes_pod_labels": [],
+            "mounted_volumes": [],
+            "kubernetes_secrets": [],
+            "env_vars": []
+          },
+          "pipeline_parameters": [
+            {
+              "name": "region_name",
+              "description": "Target region for earthquake analysis",
+              "default_value": {
+                "type": "String",
+                "value": "Ridgecrest"
+              },
+              "required": false
+            },
+            {
+              "name": "num_parallel",
+              "description": "Number of parallel processes",
+              "default_value": {
+                "type": "Integer",
+                "value": 1
+              },
+              "required": false
+            }
+          ]
+        }
+      },
+      "runtime_ref": ""
+    }
+  ],
+  "schemas": []
+}

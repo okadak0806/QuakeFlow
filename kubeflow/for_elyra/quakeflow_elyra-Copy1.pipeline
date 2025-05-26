@@ -1,0 +1,129 @@
+{
+  "doc_type": "pipeline",
+  "version": "3.0",
+  "json_schema": "http://api.dataplatform.ibm.com/schemas/common-pipeline/pipeline-flow/pipeline-flow-v3-schema.json",
+  "id": "quakeflow-pipeline",
+  "primary_pipeline": "primary",
+  "pipelines": [
+    {
+      "id": "primary",
+      "nodes": [
+        {
+          "id": "6418e7af-a8fe-48f4-a3f9-77a0191d50e9",
+          "type": "execution_node",
+          "op": "execute-python-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [],
+              "include_subdirectories": false,
+              "outputs": [],
+              "env_vars": [
+                {
+                  "env_var": "REGION_NAME"
+                },
+                {
+                  "env_var": "NUM_PARALLEL"
+                },
+                {
+                  "env_var": "BUCKET_NAME"
+                },
+                {
+                  "env_var": "S3_URL"
+                },
+                {
+                  "env_var": "SECURE"
+                }
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "scripts/01_set_config.py",
+              "runtime_image": "zhuwq0/quakeflow-env:latest"
+            },
+            "ui_data": {
+              "label": "01_set_config.py",
+              "image": "/static/elyra/python.svg",
+              "x_pos": 11.558990478515625,
+              "y_pos": 102.0486068725586,
+              "description": "Run Python script"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "app_data": {
+        "ui_data": {
+          "comments": []
+        },
+        "version": 8,
+        "runtime_type": "KUBEFLOW_PIPELINES",
+        "properties": {
+          "name": "quakeflow_elyra-Copy1",
+          "runtime": "Kubeflow Pipelines",
+          "description": "Earthquake detection and analysis workflow using QuakeFlow",
+          "pipeline_defaults": {
+            "kubernetes_tolerations": [],
+            "kubernetes_pod_annotations": [],
+            "kubernetes_shared_mem_size": {},
+            "kubernetes_pod_labels": [],
+            "mounted_volumes": [],
+            "kubernetes_secrets": [],
+            "env_vars": []
+          },
+          "pipeline_parameters": [
+            {
+              "name": "region_name",
+              "description": "Target region for earthquake analysis",
+              "default_value": {
+                "type": "String",
+                "value": "Ridgecrest"
+              },
+              "required": false
+            },
+            {
+              "name": "num_parallel",
+              "description": "Number of parallel processes",
+              "default_value": {
+                "type": "Integer",
+                "value": 1
+              },
+              "required": false
+            }
+          ]
+        }
+      },
+      "runtime_ref": ""
+    }
+  ],
+  "schemas": []
+}
