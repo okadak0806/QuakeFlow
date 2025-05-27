@@ -1,0 +1,18 @@
+# environment.yml
+name: quakeflow2
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy
+  - pandas
+  - matplotlib
+  - obspy
+  - requests
+  - pip
+  - pip:
+    - kfp==2.0.1
+    - jupyterlab
+    - notebook
+    - minio
