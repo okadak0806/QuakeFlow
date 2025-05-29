@@ -2,16 +2,16 @@
   "doc_type": "pipeline",
   "version": "3.0",
   "json_schema": "http://api.dataplatform.ibm.com/schemas/common-pipeline/pipeline-flow/pipeline-flow-v3-schema.json",
-  "id": "quakeflow-pipeline",
+  "id": "elyra-auto-generated-pipeline",
   "primary_pipeline": "primary",
   "pipelines": [
     {
       "id": "primary",
       "nodes": [
         {
-          "id": "6418e7af-a8fe-48f4-a3f9-77a0191d50e9",
+          "id": "0ae2be96-3bfd-42a2-9c56-09c3191010e1",
           "type": "execution_node",
-          "op": "execute-python-node",
+          "op": "execute-notebook-node",
           "app_data": {
             "component_parameters": {
               "dependencies": [],
@@ -19,19 +19,7 @@
               "outputs": [],
               "env_vars": [
                 {
-                  "env_var": "REGION_NAME"
-                },
-                {
-                  "env_var": "NUM_PARALLEL"
-                },
-                {
-                  "env_var": "BUCKET_NAME"
-                },
-                {
-                  "env_var": "S3_URL"
-                },
-                {
-                  "env_var": "SECURE"
+                  "env_var": "ELYRA_RUNTIME_ENV"
                 }
               ],
               "kubernetes_pod_annotations": [],
@@ -40,15 +28,15 @@
               "kubernetes_shared_mem_size": {},
               "kubernetes_tolerations": [],
               "mounted_volumes": [],
-              "filename": "scripts/01_set_config.py",
-              "runtime_image": "zhuwq0/quakeflow-env:latest"
+              "filename": "Download_Event.ipynb",
+              "runtime_image": "okadak86/py39-elyra:v0.2.0"
             },
             "ui_data": {
-              "label": "01_set_config.py",
-              "image": "/static/elyra/python.svg",
-              "x_pos": 11.558990478515625,
-              "y_pos": 102.0486068725586,
-              "description": "Run Python script"
+              "label": "Download_Event.ipynb",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 298,
+              "y_pos": 121,
+              "description": "Run notebook file"
             }
           },
           "inputs": [
@@ -86,40 +74,20 @@
           "comments": []
         },
         "version": 8,
-        "runtime_type": "KUBEFLOW_PIPELINES",
         "properties": {
-          "name": "quakeflow_elyra-Copy1",
-          "runtime": "Kubeflow Pipelines",
-          "description": "Earthquake detection and analysis workflow using QuakeFlow",
+          "name": "quakeflow",
+          "runtime": "Generic",
           "pipeline_defaults": {
-            "kubernetes_tolerations": [],
-            "kubernetes_pod_annotations": [],
             "kubernetes_shared_mem_size": {},
-            "kubernetes_pod_labels": [],
             "mounted_volumes": [],
+            "kubernetes_pod_annotations": [],
+            "kubernetes_pod_labels": [],
+            "kubernetes_tolerations": [],
+            "env_vars": [],
             "kubernetes_secrets": [],
-            "env_vars": []
+            "runtime_image": "okadak86/py39-elyra:latest"
           },
-          "pipeline_parameters": [
-            {
-              "name": "region_name",
-              "description": "Target region for earthquake analysis",
-              "default_value": {
-                "type": "String",
-                "value": "Ridgecrest"
-              },
-              "required": false
-            },
-            {
-              "name": "num_parallel",
-              "description": "Number of parallel processes",
-              "default_value": {
-                "type": "Integer",
-                "value": 1
-              },
-              "required": false
-            }
-          ]
+          "description": "basic quakeflow pipline"
         }
       },
       "runtime_ref": ""

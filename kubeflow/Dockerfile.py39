@@ -1,0 +1,15 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+ENV PYTHONUNBUFFERED=1
+
+# Install curl for Elyra bootstrapper
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+# Install Elyra requirements in base environment
+RUN pip install kfp==1.8.22 pyyaml requests 
+
+RUN pip install numpy==1.22.3 obspy minio
+
+RUN pip install pandas==1.2.4
