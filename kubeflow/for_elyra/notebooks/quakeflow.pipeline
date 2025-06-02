@@ -226,7 +226,7 @@
               "dependencies": [],
               "include_subdirectories": false,
               "outputs": [
-                "waveforms",
+                "waveforms.tar.gz",
                 "fname.csv"
               ],
               "env_vars": [
@@ -364,13 +364,13 @@
           "name": "quakeflow",
           "runtime": "Generic",
           "pipeline_defaults": {
-            "kubernetes_shared_mem_size": {},
-            "mounted_volumes": [],
-            "kubernetes_pod_annotations": [],
             "kubernetes_pod_labels": [],
+            "mounted_volumes": [],
             "kubernetes_tolerations": [],
-            "env_vars": [],
+            "kubernetes_pod_annotations": [],
+            "kubernetes_shared_mem_size": {},
             "kubernetes_secrets": [],
+            "env_vars": [],
             "runtime_image": "okadak86/py39-elyra:latest"
           },
           "description": "basic quakeflow pipline"
