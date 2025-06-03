@@ -1,0 +1,178 @@
+{
+  "doc_type": "pipeline",
+  "version": "3.0",
+  "json_schema": "http://api.dataplatform.ibm.com/schemas/common-pipeline/pipeline-flow/pipeline-flow-v3-schema.json",
+  "id": "elyra-auto-generated-pipeline",
+  "primary_pipeline": "primary",
+  "pipelines": [
+    {
+      "id": "primary",
+      "nodes": [
+        {
+          "id": "e47f6bf8-1091-4ee4-a5f8-961b37962764",
+          "type": "execution_node",
+          "op": "execute-notebook-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [
+                "config/config.json",
+                "config/index.json",
+                "phasenet/picks.csv",
+                "stations/stations.json"
+              ],
+              "include_subdirectories": true,
+              "outputs": [
+                "gamma/gamma_catalog.csv",
+                "gamma/gamma_picks.csv"
+              ],
+              "env_vars": [
+                {
+                  "env_var": "ELYRA_RUNTIME_ENV"
+                }
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "Run_GaMMA.ipynb",
+              "runtime_image": "okadak86/gamma-api:0.9"
+            },
+            "ui_data": {
+              "label": "Run_GaMMA.ipynb",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 43,
+              "y_pos": 535,
+              "description": "Run notebook file"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "f1727605-328d-496e-ab43-13be617e3b48",
+          "type": "execution_node",
+          "op": "execute-notebook-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [
+                "config/config.json",
+                "stations/stations.json",
+                "events/standard_catalog.csv"
+              ],
+              "include_subdirectories": true,
+              "outputs": [
+                "earthquake_number.png",
+                "earthquake_location.png",
+                "earthquake_magnitude_frequency.png",
+                "earthquake_magnitude_time.png",
+                "covariance.png"
+              ],
+              "env_vars": [],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "Plot_catalog_on_Kubeflow.ipynb",
+              "runtime_image": "continuumio/anaconda3:2024.02-1"
+            },
+            "ui_data": {
+              "label": "Plot_catalog_on_Kubeflow.ipynb",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 256,
+              "y_pos": 533,
+              "description": "Run notebook file"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "c4d3e841-fc1c-4b18-97bc-ae2115e5df47",
+                  "node_id_ref": "e47f6bf8-1091-4ee4-a5f8-961b37962764",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "app_data": {
+        "ui_data": {
+          "comments": []
+        },
+        "version": 8,
+        "properties": {
+          "name": "GaMMA_PlotFigure",
+          "runtime": "Generic",
+          "pipeline_defaults": {
+            "kubernetes_shared_mem_size": {},
+            "mounted_volumes": [],
+            "kubernetes_pod_annotations": [],
+            "kubernetes_pod_labels": [],
+            "kubernetes_tolerations": [],
+            "env_vars": [],
+            "kubernetes_secrets": [],
+            "runtime_image": "okadak86/py39-elyra:latest"
+          },
+          "description": "basic quakeflow pipline"
+        }
+      },
+      "runtime_ref": ""
+    }
+  ],
+  "schemas": []
+}
