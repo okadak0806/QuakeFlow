@@ -1,0 +1,11 @@
+{
+    "name": "quakeflow_python_39_pandas-copy1",
+    "display_name": "QuakeFlow PhaseNet-API",
+    "metadata": {
+        "tags": [],
+        "display_name": "QuakeFlow PhaseNet-API",
+        "image_name": "okadak86/phasenet-api:1.0"
+    },
+    "schema_name": "runtime-image",
+    "resource": "/home/okadak/.local/share/jupyter/metadata/runtime-images/quakeflow_python_39_pandas-copy1.json"
+}

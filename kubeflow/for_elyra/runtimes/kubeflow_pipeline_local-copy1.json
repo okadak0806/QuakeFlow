@@ -1,0 +1,19 @@
+{
+    "name": "kubeflow_pipeline_local-copy1",
+    "display_name": "Kubeflow Pipeline (local)-quake",
+    "metadata": {
+        "tags": [],
+        "display_name": "Kubeflow Pipeline (local)-quake",
+        "engine": "Argo",
+        "auth_type": "NO_AUTHENTICATION",
+        "api_endpoint": "http://localhost:31380/pipeline",
+        "cos_auth_type": "USER_CREDENTIALS",
+        "cos_endpoint": "http://minio-service.kubeflow.svc.cluster.local:9000",
+        "cos_bucket": "quakeflow",
+        "cos_username": "minio",
+        "cos_password": "minio123",
+        "runtime_type": "KUBEFLOW_PIPELINES"
+    },
+    "schema_name": "kfp",
+    "resource": "/home/okadak/.local/share/jupyter/metadata/runtimes/kubeflow_pipeline_local-copy1.json"
+}

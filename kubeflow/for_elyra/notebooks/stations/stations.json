@@ -1,0 +1,822 @@
+{
+  "CI.CCC..BH": {
+    "longitude": -117.36453,
+    "latitude": 35.52495,
+    "elevation(m)": 670.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      627373000.0,
+      627373000.0,
+      627373000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.CCC..HH": {
+    "longitude": -117.36453,
+    "latitude": 35.52495,
+    "elevation(m)": 670.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      627369000.0,
+      627369000.0,
+      627369000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.CCC..HN": {
+    "longitude": -117.36453,
+    "latitude": 35.52495,
+    "elevation(m)": 670.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213980.0,
+      214322.0,
+      213809.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.CLC..BH": {
+    "longitude": -117.59751,
+    "latitude": 35.81574,
+    "elevation(m)": 775.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      627373000.0,
+      627373000.0,
+      627373000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.CLC..HH": {
+    "longitude": -117.59751,
+    "latitude": 35.81574,
+    "elevation(m)": 775.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      627369000.0,
+      627369000.0,
+      627369000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.CLC..HN": {
+    "longitude": -117.59751,
+    "latitude": 35.81574,
+    "elevation(m)": 775.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213945.0,
+      213809.0,
+      213740.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.DTP..BH": {
+    "longitude": -117.84581,
+    "latitude": 35.26742,
+    "elevation(m)": 908.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      627373000.0,
+      627373000.0,
+      627373000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.DTP..HH": {
+    "longitude": -117.84581,
+    "latitude": 35.26742,
+    "elevation(m)": 908.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      627369000.0,
+      627369000.0,
+      627369000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.DTP..HN": {
+    "longitude": -117.84581,
+    "latitude": 35.26742,
+    "elevation(m)": 908.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      214399.0,
+      213971.0,
+      214484.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.JRC2..BH": {
+    "longitude": -117.80885,
+    "latitude": 35.98249,
+    "elevation(m)": 1469.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      784872000.0,
+      784872000.0,
+      790484000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.JRC2..HH": {
+    "longitude": -117.80885,
+    "latitude": 35.98249,
+    "elevation(m)": 1469.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      784867000.0,
+      784867000.0,
+      790479000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.JRC2..HN": {
+    "longitude": -117.80885,
+    "latitude": 35.98249,
+    "elevation(m)": 1469.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213809.0,
+      213945.0,
+      214185.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.LRL..BH": {
+    "longitude": -117.68212,
+    "latitude": 35.47954,
+    "elevation(m)": 1340.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      632496000.0,
+      634185000.0,
+      631652000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.LRL..HH": {
+    "longitude": -117.68212,
+    "latitude": 35.47954,
+    "elevation(m)": 1340.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      629025000.0,
+      630705000.0,
+      628185000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.LRL..HN": {
+    "longitude": -117.68212,
+    "latitude": 35.47954,
+    "elevation(m)": 1340.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      214001.0,
+      213916.0,
+      213445.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.LRL.2C.HN": {
+    "longitude": -117.68212,
+    "latitude": 35.47954,
+    "elevation(m)": 1340.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213866.0,
+      213781.0,
+      213310.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.MPM..BH": {
+    "longitude": -117.48901,
+    "latitude": 36.05799,
+    "elevation(m)": 1839.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      627373000.0,
+      627373000.0,
+      627373000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.MPM..HH": {
+    "longitude": -117.48901,
+    "latitude": 36.05799,
+    "elevation(m)": 1839.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      627369000.0,
+      627369000.0,
+      627369000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.MPM..HN": {
+    "longitude": -117.48901,
+    "latitude": 36.05799,
+    "elevation(m)": 1839.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213911.0,
+      214219.0,
+      213911.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.Q0072.01.HN": {
+    "longitude": -117.666721,
+    "latitude": 35.609617,
+    "elevation(m)": 695.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      256354.0,
+      256354.0,
+      256354.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.SLA..BH": {
+    "longitude": -117.28332,
+    "latitude": 35.89095,
+    "elevation(m)": 1174.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      622341000.0,
+      618995000.0,
+      616485000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.SLA..HH": {
+    "longitude": -117.28332,
+    "latitude": 35.89095,
+    "elevation(m)": 1174.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      622336000.0,
+      618991000.0,
+      616481000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.SLA..HN": {
+    "longitude": -117.28332,
+    "latitude": 35.89095,
+    "elevation(m)": 1174.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      214253.0,
+      213672.0,
+      213980.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.SRT..BH": {
+    "longitude": -117.75051,
+    "latitude": 35.69235,
+    "elevation(m)": 667.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      633341000.0,
+      633341000.0,
+      633341000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.SRT..HH": {
+    "longitude": -117.75051,
+    "latitude": 35.69235,
+    "elevation(m)": 667.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      629865000.0,
+      629865000.0,
+      629865000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.SRT..HN": {
+    "longitude": -117.75051,
+    "latitude": 35.69235,
+    "elevation(m)": 667.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      214301.0,
+      213873.0,
+      214087.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.TOW2..BH": {
+    "longitude": -117.76488,
+    "latitude": 35.80856,
+    "elevation(m)": 685.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      626915000.0,
+      626915000.0,
+      626843000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.TOW2..HH": {
+    "longitude": -117.76488,
+    "latitude": 35.80856,
+    "elevation(m)": 685.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      626911000.0,
+      626911000.0,
+      626839000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.TOW2..HN": {
+    "longitude": -117.76488,
+    "latitude": 35.80856,
+    "elevation(m)": 685.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213800.0,
+      214142.0,
+      214356.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WBM..BH": {
+    "longitude": -117.89049,
+    "latitude": 35.60839,
+    "elevation(m)": 892.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      316472000.0,
+      316472000.0,
+      316472000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.WBM..HH": {
+    "longitude": -117.89049,
+    "latitude": 35.60839,
+    "elevation(m)": 892.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      314768000.0,
+      314768000.0,
+      314768000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.WBM..HN": {
+    "longitude": -117.89049,
+    "latitude": 35.60839,
+    "elevation(m)": 892.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213683.0,
+      214197.0,
+      213683.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WBM.2C.HN": {
+    "longitude": -117.89049,
+    "latitude": 35.60839,
+    "elevation(m)": 892.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213520.0,
+      214033.0,
+      213520.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WCS2..BH": {
+    "longitude": -117.76526,
+    "latitude": 36.02521,
+    "elevation(m)": 1143.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      626915000.0,
+      626915000.0,
+      626843000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.WCS2..HH": {
+    "longitude": -117.76526,
+    "latitude": 36.02521,
+    "elevation(m)": 1143.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      626911000.0,
+      626911000.0,
+      626839000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.WCS2..HN": {
+    "longitude": -117.76526,
+    "latitude": 36.02521,
+    "elevation(m)": 1143.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213757.0,
+      213330.0,
+      213415.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WMF..BH": {
+    "longitude": -117.85486,
+    "latitude": 36.11758,
+    "elevation(m)": 1537.4,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      629963000.0,
+      631652000.0,
+      629963000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.WMF..HH": {
+    "longitude": -117.85486,
+    "latitude": 36.11758,
+    "elevation(m)": 1537.4,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      626506000.0,
+      628185000.0,
+      626506000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.WMF..HN": {
+    "longitude": -117.85486,
+    "latitude": 36.11758,
+    "elevation(m)": 1537.4,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      214087.0,
+      214087.0,
+      214087.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WMF.2C.HN": {
+    "longitude": -117.85486,
+    "latitude": 36.11758,
+    "elevation(m)": 1537.4,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213952.0,
+      213952.0,
+      213952.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WNM..EH": {
+    "longitude": -117.90616,
+    "latitude": 35.8422,
+    "elevation(m)": 974.3,
+    "component": [
+      "Z"
+    ],
+    "response": [
+      69306200.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.WNM..HN": {
+    "longitude": -117.90616,
+    "latitude": 35.8422,
+    "elevation(m)": 974.3,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      214054.0,
+      213926.0,
+      214054.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WNM.2C.HN": {
+    "longitude": -117.90616,
+    "latitude": 35.8422,
+    "elevation(m)": 974.3,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      214048.0,
+      213920.0,
+      214048.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WRC2..BH": {
+    "longitude": -117.65038,
+    "latitude": 35.9479,
+    "elevation(m)": 943.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      633341000.0,
+      633341000.0,
+      633341000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.WRC2..HH": {
+    "longitude": -117.65038,
+    "latitude": 35.9479,
+    "elevation(m)": 943.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      629865000.0,
+      629865000.0,
+      629865000.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.WRC2..HN": {
+    "longitude": -117.65038,
+    "latitude": 35.9479,
+    "elevation(m)": 943.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      214472.0,
+      214215.0,
+      214301.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WRV2..EH": {
+    "longitude": -117.8904,
+    "latitude": 36.00774,
+    "elevation(m)": 1070.0,
+    "component": [
+      "Z"
+    ],
+    "response": [
+      71427500.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.WRV2..HN": {
+    "longitude": -117.8904,
+    "latitude": 36.00774,
+    "elevation(m)": 1070.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213883.0,
+      235224.0,
+      235139.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WRV2.2C.HN": {
+    "longitude": -117.8904,
+    "latitude": 36.00774,
+    "elevation(m)": 1070.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213877.0,
+      235218.0,
+      235132.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WVP2..EH": {
+    "longitude": -117.81769,
+    "latitude": 35.94939,
+    "elevation(m)": 1465.0,
+    "component": [
+      "Z"
+    ],
+    "response": [
+      68019200.0
+    ],
+    "unit": "m/s"
+  },
+  "CI.WVP2..HN": {
+    "longitude": -117.81769,
+    "latitude": 35.94939,
+    "elevation(m)": 1465.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213797.0,
+      213584.0,
+      213755.0
+    ],
+    "unit": "m/s**2"
+  },
+  "CI.WVP2.2C.HN": {
+    "longitude": -117.81769,
+    "latitude": 35.94939,
+    "elevation(m)": 1465.0,
+    "component": [
+      "E",
+      "N",
+      "Z"
+    ],
+    "response": [
+      213791.0,
+      213578.0,
+      213749.0
+    ],
+    "unit": "m/s**2"
+  }
+}

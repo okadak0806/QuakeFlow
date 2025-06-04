@@ -1,0 +1,32 @@
+{
+  "region": "Demo",
+  "center": [
+    -117.504,
+    35.705
+  ],
+  "xlim_degree": [
+    -118.004,
+    -117.004
+  ],
+  "ylim_degree": [
+    35.205,
+    36.205
+  ],
+  "min_longitude": -118.004,
+  "max_longitude": -117.004,
+  "min_latitude": 35.205,
+  "max_latitude": 36.205,
+  "degree2km": 111.19492664455873,
+  "starttime": "2019-07-04T17:00:00.000",
+  "endtime": "2019-07-04T19:00:00.000",
+  "networks": [
+    "CI"
+  ],
+  "channels": "HH*,BH*,EH*,HN*",
+  "client": "SCEDC",
+  "phasenet": {},
+  "gamma": {},
+  "hypodd": {
+    "MAXEVENT": 10000.0
+  }
+}

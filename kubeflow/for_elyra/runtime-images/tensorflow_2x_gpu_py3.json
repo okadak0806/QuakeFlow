@@ -1,0 +1,14 @@
+{
+    "name": "tensorflow_2x_gpu_py3",
+    "display_name": "Tensorflow 2.18.0 with GPU",
+    "metadata": {
+        "description": "TensorFlow 2.18.0 (with GPU and Python 3.11)",
+        "image_name": "tensorflow/tensorflow:2.18.0-gpu",
+        "tags": [
+            "gpu",
+            "tensorflow"
+        ]
+    },
+    "schema_name": "runtime-image",
+    "resource": "/home/okadak/miniconda3/envs/elyra-env/share/jupyter/metadata/runtime-images/tensorflow_2x_gpu_py3.json"
+}

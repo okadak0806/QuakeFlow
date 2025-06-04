@@ -1,0 +1,11 @@
+{
+    "name": "quakeflow_phasenet-api-copy1",
+    "display_name": "QuakeFlow GaMMa-API",
+    "metadata": {
+        "tags": [],
+        "display_name": "QuakeFlow GaMMa-API",
+        "image_name": "okadak86/gamma-api:0.9"
+    },
+    "schema_name": "runtime-image",
+    "resource": "/home/okadak/.local/share/jupyter/metadata/runtime-images/quakeflow_phasenet-api-copy1.json"
+}

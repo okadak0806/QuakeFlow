@@ -1,0 +1,11 @@
+{
+    "name": "quakeflow-py39-runtime",
+    "display_name": "QuakeFlow Python 3.9 Numpy",
+    "metadata": {
+        "tags": [],
+        "display_name": "QuakeFlow Python 3.9 Numpy",
+        "image_name": "okadak86/py39-elyra:v0.1.0"
+    },
+    "schema_name": "runtime-image",
+    "resource": "/home/okadak/.local/share/jupyter/metadata/runtime-images/quakeflow-py39-runtime.json"
+}

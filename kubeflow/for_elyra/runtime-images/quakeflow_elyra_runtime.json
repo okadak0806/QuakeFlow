@@ -1,0 +1,12 @@
+{
+    "name": "quakeflow_elyra_runtime",
+    "display_name": "QuakeFlow Elyra Runtime",
+    "metadata": {
+        "tags": [],
+        "display_name": "QuakeFlow Elyra Runtime",
+        "image_name": "okadak86/quakeflow-elyra:latest",
+        "pull_policy": "IfNotPresent"
+    },
+    "schema_name": "runtime-image",
+    "resource": "/home/okadak/.local/share/jupyter/metadata/runtime-images/quakeflow_elyra_runtime.json"
+}
