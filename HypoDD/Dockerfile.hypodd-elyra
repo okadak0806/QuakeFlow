@@ -1,0 +1,102 @@
+FROM okadak86/py39-elyra:v0.2.0
+
+# ルートユーザーに切り替えて必要なパッケージをインストール
+USER root
+
+# システムパッケージの更新とHypoDDに必要な依存関係をインストール
+RUN apt-get update && apt-get install -y \
+    gfortran \
+    gcc \
+    g++ \
+    make \
+    wget \
+    tar \
+    && rm -rf /var/lib/apt/lists/*
+
+# 作業ディレクトリの設定
+WORKDIR /opt
+
+# Fortranコンパイラのシンボリックリンク作成（古いコードの互換性のため）
+RUN ln -sf $(which gfortran) /usr/bin/f77 && \
+    ln -sf $(which gfortran) /usr/bin/g77
+
+# HypoDDソースコードのダウンロード
+RUN wget -O HYPODD_1.3.tar.gz http://www.ldeo.columbia.edu/~felixw/HYPODD/HYPODD_1.3.tar.gz && \
+    tar -xzf HYPODD_1.3.tar.gz && \
+    rm HYPODD_1.3.tar.gz
+
+# 既存のMakefileとincludeファイルをコピー（コンパイル用の修正済み設定）
+COPY Makefile /opt/HYPODD/src/hypoDD/
+COPY hypoDD.inc /opt/HYPODD/include/
+
+# HypoDDのコンパイル
+RUN cd /opt/HYPODD/src && \
+    make clean && \
+    make
+
+# 実行ファイルを適切な場所に配置
+RUN mkdir -p /opt/hypodd && \
+    cp /opt/HYPODD/src/ph2dt/ph2dt /opt/hypodd/ && \
+    cp /opt/HYPODD/src/hypoDD/hypoDD /opt/hypodd/ && \
+    chmod +x /opt/hypodd/*
+
+# PATHにHypoDDの実行ファイルを追加
+ENV PATH="/opt/hypodd:${PATH}"
+
+# 必要なPythonパッケージの追加インストール
+RUN pip install --no-cache-dir \
+    numpy \
+    pandas \
+    tqdm \
+    matplotlib \
+    scipy
+
+# Elyraバリデーション用の追加パッケージをグローバルにインストール
+RUN pip install --no-cache-dir \
+    ipykernel==6.25.2 \
+    ipython==8.12.3 \
+    ipython-genutils==0.2.0 \
+    jinja2==3.1.6 \
+    jupyter-client==7.4.9 \
+    jupyter-core==5.3.1 \
+    MarkupSafe==2.1.1 \
+    minio==7.1.15 \
+    nbclient==0.6.3 \
+    nbconvert==7.1.0 \
+    nbformat==5.4.0 \
+    papermill==2.6.0 \
+    pyzmq==24.0.1 \
+    prompt-toolkit==3.0.43 \
+    tornado==6.4.2 \
+    traitlets==5.10.0 \
+    urllib3==1.26.19
+
+# elyraユーザーのホームディレクトリを作成し、適切な権限を設定
+RUN mkdir -p /home/elyra/.local && \
+    mkdir -p /.local && \
+    chown -R 1000:1000 /home/elyra && \
+    chown -R 1000:1000 /.local && \
+    chmod -R 755 /home/elyra && \
+    chmod -R 755 /.local
+
+# HypoDDの設定ファイルとPythonスクリプトをコピー
+COPY gamma2hypodd.py /opt/
+COPY convert_stations.py /opt/
+COPY hypodd_ct.inp /opt/
+COPY hypodd_cc.inp /opt/
+COPY ph2dt.inp /opt/
+COPY vel_model_*.crh /opt/
+
+# 実行ファイルのテスト
+RUN which hypoDD && which ph2dt && \
+    hypoDD 2>&1 | head -5 || true
+
+# Elyra実行時の環境変数を設定
+ENV HOME=/home/elyra
+ENV PYTHONUSERBASE=/home/elyra/.local
+ENV PATH=/home/elyra/.local/bin:$PATH
+
+# 元のユーザーに戻す（Elyraの要件）
+USER 1000
+
+WORKDIR /home/elyra 

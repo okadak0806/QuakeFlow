@@ -233,7 +233,7 @@
               ],
               "include_subdirectories": true,
               "outputs": [
-                "hypodd_ct_catalog.txt"
+                "hypo_reloc.tar.gz"
               ],
               "env_vars": [
                 {
@@ -325,8 +325,8 @@
             "ui_data": {
               "label": "Merge_hypodd_results.ipynb",
               "image": "/static/elyra/notebook.svg",
-              "x_pos": 332,
-              "y_pos": 454,
+              "x_pos": 300,
+              "y_pos": 500,
               "description": "Run notebook file"
             }
           },
@@ -365,6 +365,81 @@
               }
             }
           ]
+        },
+        {
+          "id": "be0d2f43-42ee-42f2-b810-df48333a5c94",
+          "type": "execution_node",
+          "op": "execute-notebook-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [],
+              "include_subdirectories": false,
+              "outputs": [
+                "visualize/gamma_catalog.html",
+                "visualize/standard_catalog.html",
+                "visualize/hypodd_ct_catalog.html",
+                "visualize/hypodd_cc_catalog.html",
+                "visualize/earthquake_frequency_time.png",
+                "visualize/earthquake_magnitude_frequency.png",
+                "visualize/earthquake_magnitude_time.png"
+              ],
+              "env_vars": [
+                {
+                  "env_var": "ELYRA_RUNTIME_ENV"
+                }
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "Run_Visualize.ipynb",
+              "runtime_image": "continuumio/anaconda3:2024.02-1"
+            },
+            "ui_data": {
+              "label": "Run_Visualize.ipynb",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 531,
+              "y_pos": 501,
+              "description": "Run notebook file"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "f42b1202-455c-4ab9-b8a8-d73f42c2c469",
+                  "node_id_ref": "ac361852-cdbc-45aa-a8be-f5a3689d0ee6",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
         }
       ],
       "app_data": {
@@ -376,13 +451,13 @@
           "name": "009_0013Hypodd",
           "runtime": "Generic",
           "pipeline_defaults": {
-            "kubernetes_shared_mem_size": {},
             "mounted_volumes": [],
             "kubernetes_pod_annotations": [],
             "kubernetes_pod_labels": [],
             "kubernetes_tolerations": [],
-            "env_vars": [],
+            "kubernetes_shared_mem_size": {},
             "kubernetes_secrets": [],
+            "env_vars": [],
             "runtime_image": "okadak86/py39-elyra:latest"
           },
           "description": "basic quakeflow pipline"

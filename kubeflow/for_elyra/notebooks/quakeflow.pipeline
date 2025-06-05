@@ -502,6 +502,446 @@
               }
             }
           ]
+        },
+        {
+          "id": "d0397a76-b61a-47aa-a9ff-0f5f5e83ebd2",
+          "type": "execution_node",
+          "op": "execute-notebook-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [
+                "config/config.json",
+                "stations/stations.json",
+                "gamma/gamma_catalog.csv"
+              ],
+              "include_subdirectories": true,
+              "outputs": [
+                "hypoinv/stations.dat",
+                "hypodd/stations.dat",
+                "num_parallel.txt"
+              ],
+              "env_vars": [
+                {
+                  "env_var": "ELYRA_RUNTIME_ENV"
+                }
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "Convert_Station_Format.ipynb",
+              "runtime_image": "okadak86/py39-elyra:v0.3.0"
+            },
+            "ui_data": {
+              "label": "Convert_Station_Format.ipynb",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 652,
+              "y_pos": 540,
+              "description": "Run notebook file"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "987017b4-c966-4357-968d-c8af1a068ecb",
+                  "node_id_ref": "23db3f4a-9ff4-4ca5-b144-1ca57b90cce6",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "4febae97-fbca-4de8-bd9a-393474012d4c",
+          "type": "execution_node",
+          "op": "execute-notebook-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [
+                "config/config.json",
+                "gamma/gamma_catalog.csv",
+                "gamma/gamma_picks.csv"
+              ],
+              "include_subdirectories": true,
+              "outputs": [
+                "hypodd/hypodd_phase.pha"
+              ],
+              "env_vars": [
+                {
+                  "env_var": "ELYRA_RUNTIME_ENV"
+                }
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "Convert_Phase_Format.ipynb",
+              "runtime_image": "okadak86/py39-elyra:v0.3.0"
+            },
+            "ui_data": {
+              "label": "Convert_Phase_Format.ipynb",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 866,
+              "y_pos": 543,
+              "description": "Run notebook file"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "eff18dde-a590-4025-857f-4d0d86f95fb7",
+                  "node_id_ref": "d0397a76-b61a-47aa-a9ff-0f5f5e83ebd2",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "90ba6c12-6d9a-4f95-9ce1-3a0efa55d975",
+          "type": "execution_node",
+          "op": "execute-notebook-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [
+                "config/config.json"
+              ],
+              "include_subdirectories": true,
+              "outputs": [
+                "hypodd/stations.dat",
+                "hypodd/dt.ct",
+                "hypodd/event.sel"
+              ],
+              "env_vars": [
+                {
+                  "env_var": "ELYRA_RUNTIME_ENV"
+                }
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "Run_ph2dt.ipynb",
+              "runtime_image": "okadak86/py39-elyra:v0.3.0"
+            },
+            "ui_data": {
+              "label": "Run_ph2dt.ipynb",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 1089,
+              "y_pos": 544,
+              "description": "Run notebook file"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "1124783d-0437-4834-8ff0-4d4fbdf8e688",
+                  "node_id_ref": "4febae97-fbca-4de8-bd9a-393474012d4c",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "c29b0e18-d7c8-4dd5-a447-a4aebc892b7f",
+          "type": "execution_node",
+          "op": "execute-notebook-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [
+                "config/config.json"
+              ],
+              "include_subdirectories": true,
+              "outputs": [
+                "hypodd_ct_catalog.txt"
+              ],
+              "env_vars": [
+                {
+                  "env_var": "ELYRA_RUNTIME_ENV"
+                }
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "Run_HypoDD_re-location.ipynb",
+              "runtime_image": "okadak86/py39-elyra:v0.3.0"
+            },
+            "ui_data": {
+              "label": "Run_HypoDD_re-location.ipynb",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 674,
+              "y_pos": 653,
+              "description": "Run notebook file"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "a4130bba-082e-4f98-a57a-e0b7d6f03e20",
+                  "node_id_ref": "90ba6c12-6d9a-4f95-9ce1-3a0efa55d975",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "2140ae70-610f-4a09-af98-36d780ede900",
+          "type": "execution_node",
+          "op": "execute-notebook-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [
+                "config/config.json",
+                "gamma/gamma_catalog.csv"
+              ],
+              "include_subdirectories": true,
+              "outputs": [
+                "hypodd_ct_catalog.txt",
+                "hypodd_cc_catalog.txt"
+              ],
+              "env_vars": [
+                {
+                  "env_var": "ELYRA_RUNTIME_ENV"
+                }
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "Merge_hypodd_results.ipynb",
+              "runtime_image": "okadak86/py39-elyra:v0.3.0"
+            },
+            "ui_data": {
+              "label": "Merge_hypodd_results.ipynb",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 921,
+              "y_pos": 651,
+              "description": "Run notebook file"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "a640ecf6-1f92-4ffd-8f07-39809b6fa670",
+                  "node_id_ref": "c29b0e18-d7c8-4dd5-a447-a4aebc892b7f",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": "58a86112-9bf6-4c27-be12-a9848c3ec43b",
+          "type": "execution_node",
+          "op": "execute-notebook-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [],
+              "include_subdirectories": false,
+              "outputs": [
+                "visualize/gamma_catalog.html",
+                "visualize/standard_catalog.html",
+                "visualize/hypodd_ct_catalog.html",
+                "visualize/hypodd_cc_catalog.html",
+                "visualize/earthquake_frequency_time.png",
+                "visualize/earthquake_magnitude_frequency.png",
+                "visualize/earthquake_magnitude_time.png"
+              ],
+              "env_vars": [
+                {
+                  "env_var": "ELYRA_RUNTIME_ENV"
+                }
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "Run_Visualize.ipynb",
+              "runtime_image": "continuumio/anaconda3:2024.02-1"
+            },
+            "ui_data": {
+              "label": "Run_Visualize.ipynb",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 1131,
+              "y_pos": 690,
+              "description": "Run notebook file"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "52f03b19-0377-45ff-9867-1a07f36859bb",
+                  "node_id_ref": "2140ae70-610f-4a09-af98-36d780ede900",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
         }
       ],
       "app_data": {
@@ -513,13 +953,13 @@
           "name": "quakeflow",
           "runtime": "Generic",
           "pipeline_defaults": {
-            "kubernetes_shared_mem_size": {},
             "mounted_volumes": [],
             "kubernetes_pod_annotations": [],
             "kubernetes_pod_labels": [],
             "kubernetes_tolerations": [],
-            "env_vars": [],
+            "kubernetes_shared_mem_size": {},
             "kubernetes_secrets": [],
+            "env_vars": [],
             "runtime_image": "okadak86/py39-elyra:latest"
           },
           "description": "basic quakeflow pipline"
