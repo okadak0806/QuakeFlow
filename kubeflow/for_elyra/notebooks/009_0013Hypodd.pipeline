@@ -372,7 +372,11 @@
           "op": "execute-notebook-node",
           "app_data": {
             "component_parameters": {
-              "dependencies": [],
+              "dependencies": [
+                "config/config.json",
+                "events/standard_catalog.csv",
+                "gamma/gamma_catalog.csv"
+              ],
               "include_subdirectories": false,
               "outputs": [
                 "visualize/gamma_catalog.html",
@@ -401,7 +405,7 @@
               "label": "Run_Visualize.ipynb",
               "image": "/static/elyra/notebook.svg",
               "x_pos": 531,
-              "y_pos": 501,
+              "y_pos": 504,
               "description": "Run notebook file"
             }
           },
