@@ -1,0 +1,186 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2025-02-12T06:48:49Z"
+  generateName: metadata-grpc-deployment-65fc97b764-
+  labels:
+    application-crd-id: kubeflow-pipelines
+    component: metadata-grpc-server
+    pod-template-hash: 65fc97b764
+  name: metadata-grpc-deployment-65fc97b764-78n8t
+  namespace: kubeflow
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: metadata-grpc-deployment-65fc97b764
+    uid: 94900be0-0247-4667-8cf6-7ba8e2f6a969
+  resourceVersion: "4403"
+  uid: b379bc01-c564-4c14-93e3-e887f66ba305
+spec:
+  containers:
+  - args:
+    - --grpc_port=8080
+    - --mysql_config_database=$(MYSQL_DATABASE)
+    - --mysql_config_host=$(MYSQL_HOST)
+    - --mysql_config_port=$(MYSQL_PORT)
+    - --mysql_config_user=$(DBCONFIG_USER)
+    - --mysql_config_password=$(DBCONFIG_PASSWORD)
+    - --enable_database_upgrade=true
+    command:
+    - /bin/metadata_store_server
+    env:
+    - name: DBCONFIG_USER
+      valueFrom:
+        secretKeyRef:
+          key: username
+          name: mysql-secret
+    - name: DBCONFIG_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: mysql-secret
+    - name: MYSQL_DATABASE
+      valueFrom:
+        configMapKeyRef:
+          key: mlmdDb
+          name: pipeline-install-config
+    - name: MYSQL_HOST
+      valueFrom:
+        configMapKeyRef:
+          key: dbHost
+          name: pipeline-install-config
+    - name: MYSQL_PORT
+      valueFrom:
+        configMapKeyRef:
+          key: dbPort
+          name: pipeline-install-config
+    image: gcr.io/tfx-oss-public/ml_metadata_store_server:1.5.0
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 3
+      initialDelaySeconds: 3
+      periodSeconds: 5
+      successThreshold: 1
+      tcpSocket:
+        port: grpc-api
+      timeoutSeconds: 2
+    name: container
+    ports:
+    - containerPort: 8080
+      name: grpc-api
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 3
+      initialDelaySeconds: 3
+      periodSeconds: 5
+      successThreshold: 1
+      tcpSocket:
+        port: grpc-api
+      timeoutSeconds: 2
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xmkkc
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: minikube
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: metadata-grpc-server
+  serviceAccountName: metadata-grpc-server
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-xmkkc
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-02-12T06:49:35Z"
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-02-12T06:48:49Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-02-12T06:48:49Z"
+    message: 'containers with unready status: [container]'
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-02-12T06:48:49Z"
+    message: 'containers with unready status: [container]'
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-02-12T06:48:49Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://b55805dd41cdae8986738cf33b0c4983966870a06742d0e4d7c5ec3805e07843
+    image: gcr.io/tfx-oss-public/ml_metadata_store_server:1.5.0
+    imageID: docker-pullable://gcr.io/tfx-oss-public/ml_metadata_store_server@sha256:db8691752b4cd02658e4bb28b73d34a18ba71f49d6cc124a47c0c5001f8c0f83
+    lastState:
+      terminated:
+        containerID: docker://b55805dd41cdae8986738cf33b0c4983966870a06742d0e4d7c5ec3805e07843
+        exitCode: 139
+        finishedAt: "2025-02-12T07:25:14Z"
+        reason: Error
+        startedAt: "2025-02-12T07:25:14Z"
+    name: container
+    ready: false
+    restartCount: 12
+    started: false
+    state:
+      waiting:
+        message: back-off 5m0s restarting failed container=container pod=metadata-grpc-deployment-65fc97b764-78n8t_kubeflow(b379bc01-c564-4c14-93e3-e887f66ba305)
+        reason: CrashLoopBackOff
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-xmkkc
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 192.168.49.2
+  hostIPs:
+  - ip: 192.168.49.2
+  phase: Running
+  podIP: 10.244.0.3
+  podIPs:
+  - ip: 10.244.0.3
+  qosClass: BestEffort
+  startTime: "2025-02-12T06:48:49Z"
