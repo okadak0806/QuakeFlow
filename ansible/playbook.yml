@@ -1,0 +1,39 @@
+---
+- name: Install CUDA, Kubernetes and GPU Support on VRT Server (Ubuntu 24.04)
+  hosts: vrt_servers
+  become: true
+  become_method: sudo
+  gather_facts: yes
+  
+  pre_tasks:
+    - name: Wait for server to be ready
+      wait_for:
+        port: 22
+        host: "{{ ansible_host }}"
+        delay: 10
+        timeout: 300
+
+  roles:
+    - cuda
+
+  post_tasks:
+    - name: Final CUDA verification
+      command: nvidia-smi
+      register: final_nvidia_smi
+      changed_when: false
+      
+    - name: Display final GPU status
+      debug:
+        msg: "{{ final_nvidia_smi.stdout_lines }}"
+        
+    - name: Final Kubernetes verification
+      shell: kubectl get nodes -o wide
+      become_user: ubuntu
+      environment:
+        KUBECONFIG: /home/ubuntu/.kube/config
+      register: final_k8s_status
+      changed_when: false
+      
+    - name: Display final Kubernetes status
+      debug:
+        msg: "{{ final_k8s_status.stdout_lines }}"

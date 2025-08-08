@@ -1,0 +1,311 @@
+---
+# CUDA + Kubernetes + GPU 環境構築（成功版）
+
+# 1. システムパッケージの更新
+- name: Update package cache
+  apt:
+    update_cache: yes
+    cache_valid_time: "{{ apt_cache_valid_time }}"
+  become: true
+
+# 2. 必要なパッケージのインストール
+- name: Install required packages
+  apt:
+    name:
+      - build-essential
+      - dkms
+      - linux-headers-{{ ansible_kernel }}
+      - wget
+      - curl
+      - gnupg2
+      - software-properties-common
+      - ca-certificates
+    state: present
+  become: true
+
+# 3. NVIDIAリポジトリの設定
+- name: Add NVIDIA repository GPG key
+  apt_key:
+    url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/3bf863cc.pub
+    state: present
+  become: true
+
+- name: Add NVIDIA repository
+  apt_repository:
+    repo: "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/ /"
+    state: present
+  become: true
+
+- name: Update package cache after adding repository
+  apt:
+    update_cache: yes
+  become: true
+
+# 4. CUDAとNVIDIAドライバーのインストール
+- name: Install CUDA Toolkit 12.9
+  apt:
+    name: "cuda-toolkit-12-9"
+    state: present
+  become: true
+
+- name: Install NVIDIA Driver 535
+  apt:
+    name: "nvidia-driver-535"
+    state: present
+  become: true
+
+# 5. 環境変数の設定
+- name: Set CUDA environment variables
+  lineinfile:
+    path: /etc/environment
+    line: "{{ item }}"
+    state: present
+  become: true
+  loop:
+    - "CUDA_HOME=/usr/local/cuda"
+    - "PATH=/usr/local/cuda/bin:$PATH"
+    - "LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+
+# 6. シンボリックリンクの作成
+- name: Create CUDA symbolic links
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+  become: true
+  loop:
+    - { src: "/usr/local/cuda-12.9", dest: "/usr/local/cuda" }
+    - { src: "/usr/local/cuda/lib64", dest: "/usr/lib/x86_64-linux-gnu/cuda" }
+
+# 7. システム再起動（ドライバー読み込み）
+- name: Reboot server to load NVIDIA drivers
+  reboot:
+  when: ansible_distribution == "Ubuntu"
+
+- name: Wait for server to come back online after reboot
+  wait_for:
+    port: 22
+    host: "{{ ansible_host }}"
+    delay: 30
+    timeout: 600
+  when: ansible_distribution == "Ubuntu"
+
+# 8. GPU確認
+- name: Verify NVIDIA driver installation
+  command: nvidia-smi
+  register: nvidia_smi_output
+  changed_when: false
+
+- name: Display GPU information
+  debug:
+    msg: "{{ nvidia_smi_output.stdout_lines }}"
+
+# 9. NVIDIA Container Toolkit インストール
+- name: Install NVIDIA Container Toolkit repository
+  shell: |
+    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://nvidia.github.io/libnvidia-container/stable/deb/amd64 /" > /etc/apt/sources.list.d/nvidia-container-toolkit.list
+  become: true
+
+- name: Update package cache for Container Toolkit
+  apt:
+    update_cache: yes
+  become: true
+
+- name: Install NVIDIA Container Toolkit
+  apt:
+    name: nvidia-container-toolkit
+    state: present
+  become: true
+
+# 10. Docker インストールと設定
+- name: Install Docker
+  apt:
+    name: 
+      - docker.io
+      - docker-compose
+    state: present
+  become: true
+
+- name: Start and enable Docker service
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+  become: true
+
+- name: Add ubuntu user to docker group
+  user:
+    name: ubuntu
+    groups: docker
+    append: yes
+  become: true
+
+- name: Configure NVIDIA Container Runtime
+  shell: nvidia-ctk runtime configure --runtime=docker
+  become: true
+
+- name: Restart Docker service
+  systemd:
+    name: docker
+    state: restarted
+  become: true
+
+# 11. Kubernetes インストール
+- name: Install Kubernetes packages dependencies
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gpg
+      - jq
+    state: present
+  become: true
+
+- name: Add Kubernetes repository key
+  shell: |
+    curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+  become: true
+
+- name: Add Kubernetes repository
+  shell: |
+    echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
+  become: true
+
+- name: Update package cache for Kubernetes
+  apt:
+    update_cache: yes
+  become: true
+
+- name: Install Kubernetes components
+  apt:
+    name:
+      - kubelet
+      - kubeadm
+      - kubectl
+    state: present
+  become: true
+
+- name: Hold Kubernetes packages
+  dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  become: true
+  loop:
+    - kubelet
+    - kubeadm
+    - kubectl
+
+# 12. Kubernetes クラスター初期化（シンプル版）
+- name: Initialize Kubernetes cluster
+  shell: kubeadm init --pod-network-cidr=10.244.0.0/16
+  become: true
+  register: kubeadm_init
+  ignore_errors: true
+
+- name: Create .kube directory for ubuntu user
+  file:
+    path: /home/ubuntu/.kube
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+  become: true
+
+- name: Copy admin.conf to user's kube config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /home/ubuntu/.kube/config
+    owner: ubuntu
+    group: ubuntu
+    mode: '0644'
+    remote_src: yes
+  become: true
+
+# 13. ネットワークプラグインとtaint削除
+- name: Install Flannel CNI
+  shell: kubectl apply -f https://github.com/coreos/flannel/raw/master/Documentation/kube-flannel.yml
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+
+- name: Remove taint from master node (single node cluster)
+  shell: kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+  ignore_errors: true
+
+# 14. NVIDIA Device Plugin インストール
+- name: Install NVIDIA Device Plugin
+  shell: |
+    cat <<EOF | kubectl apply -f -
+    apiVersion: apps/v1
+    kind: DaemonSet
+    metadata:
+      name: nvidia-device-plugin-daemonset
+      namespace: kube-system
+    spec:
+      selector:
+        matchLabels:
+          name: nvidia-device-plugin-ds
+      template:
+        metadata:
+          labels:
+            name: nvidia-device-plugin-ds
+        spec:
+          tolerations:
+          - key: nvidia.com/gpu
+            operator: Exists
+            effect: NoSchedule
+          containers:
+          - image: nvcr.io/nvidia/k8s-device-plugin:v0.13.0
+            name: nvidia-device-plugin-ctr
+            args: ["--fail-on-init-error=false"]
+            env:
+            - name: FAIL_ON_INIT_ERROR
+              value: "false"
+            volumeMounts:
+            - name: device-plugin
+              mountPath: /var/lib/kubelet/device-plugins
+          volumes:
+          - name: device-plugin
+            hostPath:
+              path: /var/lib/kubelet/device-plugins
+    EOF
+  become_user: ubuntu
+  become: true
+
+# 15. 最終確認
+- name: Final verification - Kubernetes cluster status
+  shell: kubectl get nodes -o wide
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+  register: final_k8s_status
+  changed_when: false
+
+- name: Display Kubernetes cluster status
+  debug:
+    msg: "{{ final_k8s_status.stdout_lines }}"
+
+# 16. Join用コマンドの生成と表示
+- name: Generate join command
+  shell: kubeadm token create --print-join-command
+  become_user: ubuntu
+  environment:
+    KUBECONFIG: /home/ubuntu/.kube/config
+  register: join_command
+  changed_when: false
+
+- name: Display join command for local machine
+  debug:
+    msg: 
+      - "=== Kubernetes Cluster Join Information ==="
+      - "Server IP: {{ ansible_host }}"
+      - "Join Command: {{ join_command.stdout }}"
+      - "To join from local machine:"
+      - "1. Install Kubernetes on local machine"
+      - "2. Run the join command above"
+      - "3. Copy kubeconfig: scp ubuntu@{{ ansible_host }}:/home/ubuntu/.kube/config ~/.kube/config"

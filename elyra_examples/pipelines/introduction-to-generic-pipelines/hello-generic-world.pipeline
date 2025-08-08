@@ -41,7 +41,7 @@
               "label": "load_data.ipynb",
               "image": "/static/elyra/notebook.svg",
               "x_pos": 6,
-              "y_pos": 81,
+              "y_pos": 80,
               "description": "Run notebook file"
             }
           },

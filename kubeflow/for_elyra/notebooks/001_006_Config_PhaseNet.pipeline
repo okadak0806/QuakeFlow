@@ -313,7 +313,7 @@
             "ui_data": {
               "label": "Run_PhaseNet.ipynb",
               "image": "/static/elyra/notebook.svg",
-              "x_pos": 356,
+              "x_pos": 355,
               "y_pos": 272,
               "description": "Run notebook file"
             }
@@ -361,7 +361,7 @@
         },
         "version": 8,
         "properties": {
-          "name": "quakeflow",
+          "name": "001_006_Config_PhaseNet",
           "runtime": "Generic",
           "pipeline_defaults": {
             "kubernetes_pod_labels": [],

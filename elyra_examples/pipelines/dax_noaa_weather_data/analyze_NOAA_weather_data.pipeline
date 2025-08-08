@@ -20,7 +20,10 @@
                 "data/noaa-weather-data-jfk-airport/jfk_weather.csv"
               ],
               "env_vars": [
-                "DATASET_URL=https://dax-cdn.cdn.appdomain.cloud/dax-noaa-weather-data-jfk-airport/1.1.4/noaa-weather-data-jfk-airport.tar.gz"
+                {
+                  "env_var": "DATASET_URL",
+                  "value": "https://dax-cdn.cdn.appdomain.cloud/dax-noaa-weather-data-jfk-airport/1.1.4/noaa-weather-data-jfk-airport.tar.gz"
+                }
               ],
               "dependencies": [],
               "include_subdirectories": false
@@ -28,7 +31,7 @@
             "label": "load_data",
             "ui_data": {
               "label": "load_data",
-              "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20viewBox%3D%220%200%2022%2022%22%3E%0A%20%20%3Cg%20class%3D%22jp-icon-warn0%20jp-icon-selectable%22%20fill%3D%22%23EF6C00%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M18.7%203.3v15.4H3.3V3.3h15.4m1.5-1.5H1.8v18.3h18.3l.1-18.3z%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M16.5%2016.5l-5.4-4.3-5.6%204.3v-11h11z%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A",
+              "image": "/static/elyra/notebook.svg",
               "x_pos": 60.70574951171875,
               "y_pos": 230.04904174804688,
               "description": "Run notebook file"
@@ -81,7 +84,7 @@
             "label": "Part 1 - Data Cleaning",
             "ui_data": {
               "label": "Part 1 - Data Cleaning",
-              "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20viewBox%3D%220%200%2022%2022%22%3E%0A%20%20%3Cg%20class%3D%22jp-icon-warn0%20jp-icon-selectable%22%20fill%3D%22%23EF6C00%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M18.7%203.3v15.4H3.3V3.3h15.4m1.5-1.5H1.8v18.3h18.3l.1-18.3z%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M16.5%2016.5l-5.4-4.3-5.6%204.3v-11h11z%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A",
+              "image": "/static/elyra/notebook.svg",
               "x_pos": 331.4868469238281,
               "y_pos": 299.0490417480469,
               "description": "Run notebook file"
@@ -131,7 +134,7 @@
             "label": "Part 2 - Data Analysis",
             "ui_data": {
               "label": "Part 2 - Data Analysis",
-              "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20viewBox%3D%220%200%2022%2022%22%3E%0A%20%20%3Cg%20class%3D%22jp-icon-warn0%20jp-icon-selectable%22%20fill%3D%22%23EF6C00%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M18.7%203.3v15.4H3.3V3.3h15.4m1.5-1.5H1.8v18.3h18.3l.1-18.3z%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M16.5%2016.5l-5.4-4.3-5.6%204.3v-11h11z%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A",
+              "image": "/static/elyra/notebook.svg",
               "x_pos": 645,
               "y_pos": 221.78109741210938,
               "description": "Run notebook file"
@@ -173,9 +176,6 @@
             "component_parameters": {
               "filename": "Part 3 - Time Series Forecasting.ipynb",
               "runtime_image": "docker.io/amancevice/pandas:1.1.1",
-              "cpu": null,
-              "gpu": null,
-              "memory": null,
               "outputs": [],
               "env_vars": [],
               "dependencies": [],
@@ -184,7 +184,7 @@
             "label": "Part 3 - Time Series Forecasting",
             "ui_data": {
               "label": "Part 3 - Time Series Forecasting",
-              "image": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20viewBox%3D%220%200%2022%2022%22%3E%0A%20%20%3Cg%20class%3D%22jp-icon-warn0%20jp-icon-selectable%22%20fill%3D%22%23EF6C00%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M18.7%203.3v15.4H3.3V3.3h15.4m1.5-1.5H1.8v18.3h18.3l.1-18.3z%22%2F%3E%0A%20%20%20%20%3Cpath%20d%3D%22M16.5%2016.5l-5.4-4.3-5.6%204.3v-11h11z%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%3C%2Fsvg%3E%0A",
+              "image": "/static/elyra/notebook.svg",
               "x_pos": 639.7548217773438,
               "y_pos": 372.5849304199219,
               "description": "Run notebook file"
@@ -232,6 +232,7 @@
               "content": "Download the JFK Weather dataset archive and extract it",
               "associated_id_refs": [
                 {
+                  "id": "1bee4a49-3d67-43be-8449-d63fb34de2d4",
                   "node_ref": "c88d9c0b-a5d5-45ab-88d6-eb6ce24ffdbb",
                   "class_name": "d3-comment-link"
                 }
@@ -247,6 +248,7 @@
               "content": "Clean the dataset",
               "associated_id_refs": [
                 {
+                  "id": "5d5e2928-650a-4724-a959-d819acaf95d9",
                   "node_ref": "e07e1b7f-568b-4bc3-9fc6-da372fd58daf",
                   "class_name": "d3-comment-link"
                 }
@@ -262,6 +264,7 @@
               "content": " Analyze the dataset",
               "associated_id_refs": [
                 {
+                  "id": "5435aa53-3e20-4974-8271-37882d7738b6",
                   "node_ref": "982e672a-4ae5-4608-bcb0-ce309868415a",
                   "class_name": "d3-comment-link"
                 }
@@ -277,6 +280,7 @@
               "content": "Explore approaches to predicting future temperatures ",
               "associated_id_refs": [
                 {
+                  "id": "a78b1f2c-be7a-435c-9a30-455638fa721f",
                   "node_ref": "b00e4654-a2b0-417c-8f93-8a03bec95945",
                   "class_name": "d3-comment-link"
                 }
@@ -284,7 +288,7 @@
             }
           ]
         },
-        "version": 7,
+        "version": 8,
         "properties": {
           "name": "analyze_NOAA_weather_data",
           "runtime": "Generic",
