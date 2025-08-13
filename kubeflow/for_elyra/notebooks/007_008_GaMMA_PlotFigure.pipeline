@@ -42,8 +42,8 @@
             "ui_data": {
               "label": "Run_GaMMA.ipynb",
               "image": "/static/elyra/notebook.svg",
-              "x_pos": 43,
-              "y_pos": 535,
+              "x_pos": 50,
+              "y_pos": 521,
               "description": "Run notebook file"
             }
           },
@@ -108,8 +108,8 @@
             "ui_data": {
               "label": "Plot_catalog_on_Kubeflow.ipynb",
               "image": "/static/elyra/notebook.svg",
-              "x_pos": 256,
-              "y_pos": 533,
+              "x_pos": 277,
+              "y_pos": 523,
               "description": "Run notebook file"
             }
           },
@@ -156,7 +156,7 @@
         },
         "version": 8,
         "properties": {
-          "name": "GaMMA_PlotFigure",
+          "name": "007_008_GaMMA_PlotFigure",
           "runtime": "Generic",
           "pipeline_defaults": {
             "kubernetes_shared_mem_size": {},
