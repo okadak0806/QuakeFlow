@@ -82,13 +82,21 @@ class ElyraUtils:
         if region is None:
             region = ElyraUtils.get_region_from_env()
             
-        # Try to load config file
-        config_path = f"../../configs/{region}.json"
-        if os.path.exists(config_path):
-            return RegionConfig.from_json(config_path)
-        else:
-            print(f"Warning: Config file {config_path} not found, using defaults")
-            return RegionConfig(region)
+        # Try to load config file from multiple possible locations
+        possible_paths = [
+            f"../../configs/{region}.json",  # Original relative path
+            f"examples/configs/{region}.json",  # From project root
+            f"configs/{region}.json",  # From examples directory
+            f"/app/examples/configs/{region}.json",  # Container path
+        ]
+        
+        for config_path in possible_paths:
+            if os.path.exists(config_path):
+                return RegionConfig.from_json(config_path)
+        
+        # If no config file found
+        print(f"Warning: Config file for region '{region}' not found in any location, using defaults")
+        return RegionConfig(region)
     
     @staticmethod
     def create_workflow(region: Optional[str] = None, 
