@@ -1,0 +1,13 @@
+{
+    "name": "quakeflow-enhanced",
+    "display_name": "QuakeFlow Enhanced Runtime v2.0",
+    "metadata": {
+        "tags": ["earthquake", "seismology", "enhanced", "unified", "elyra", "kubeflow"],
+        "display_name": "QuakeFlow Enhanced Runtime v2.0",
+        "image_name": "okadak86/quakeflow-enhanced:2.0",
+        "pull_policy": "IfNotPresent",
+        "description": "Enhanced QuakeFlow runtime with unified common libraries, improved pipeline support, and advanced earthquake data processing capabilities"
+    },
+    "schema_name": "runtime-image",
+    "resource": "/home/okadak/.local/share/jupyter/metadata/runtime-images/quakeflow-enhanced.json"
+}

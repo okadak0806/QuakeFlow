@@ -1,0 +1,117 @@
+# QuakeFlow Enhanced Runtime Image for Elyra/Kubeflow Pipelines
+# This Dockerfile creates an optimized runtime environment with unified common libraries
+
+# Base image with Python 3.9 and scientific computing libraries
+FROM jupyter/scipy-notebook:python-3.9
+
+# Metadata
+LABEL maintainer="QuakeFlow Team"
+LABEL description="Enhanced QuakeFlow runtime for Elyra/Kubeflow with unified common libraries"
+LABEL version="2.0.0"
+
+# Switch to root user for system-level installations
+USER root
+
+# System dependencies for earthquake data processing
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gfortran \
+    libopenmpi-dev \
+    libhdf5-dev \
+    libnetcdf-dev \
+    libgeos-dev \
+    libproj-dev \
+    gdal-bin \
+    libgdal-dev \
+    git \
+    curl \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set environment variables for GDAL
+ENV GDAL_CONFIG /usr/bin/gdal-config
+ENV CPLUS_INCLUDE_PATH /usr/include/gdal
+ENV C_INCLUDE_PATH /usr/include/gdal
+
+# Switch back to jovyan user
+USER jovyan
+
+# Upgrade pip and install core Python packages
+RUN pip install --upgrade pip setuptools wheel
+
+# Install earthquake data processing libraries
+COPY requirements-enhanced.txt /tmp/requirements-enhanced.txt
+RUN pip install --no-cache-dir -r /tmp/requirements-enhanced.txt
+
+# Install specific earthquake analysis packages
+RUN pip install --no-cache-dir \
+    obspy>=1.4.0 \
+    pyproj>=3.4.0 \
+    cartopy>=0.21.0 \
+    pykonal \
+    pyasdf \
+    h5py \
+    zarr \
+    dask[complete] \
+    xarray \
+    netcdf4 \
+    fsspec[gs,s3] \
+    minio \
+    scikit-learn>=1.0.0 \
+    tensorflow>=2.10.0 \
+    torch \
+    torchvision \
+    pandas>=1.5.0 \
+    numpy>=1.21.0 \
+    matplotlib>=3.5.0 \
+    seaborn \
+    plotly \
+    bokeh \
+    ipywidgets \
+    tqdm
+
+# Install Elyra and Kubeflow Pipelines SDK
+RUN pip install --no-cache-dir \
+    elyra[all]>=3.15.0 \
+    kfp>=2.0.0 \
+    kfp-server-api \
+    kfp-pipeline-spec
+
+# Create directories for QuakeFlow components
+RUN mkdir -p /opt/quakeflow/{common,phasenet,gamma,adloc,hypodd}
+
+# Copy QuakeFlow common libraries
+COPY examples/common/ /opt/quakeflow/common/
+COPY examples/configs/ /opt/quakeflow/configs/
+
+# Copy earthquake processing tools
+COPY PhaseNet/ /opt/quakeflow/phasenet/
+COPY GaMMA/ /opt/quakeflow/gamma/
+COPY ADLoc/ /opt/quakeflow/adloc/
+COPY HypoDD/ /opt/quakeflow/hypodd/
+
+# Set up Python path for QuakeFlow modules
+ENV PYTHONPATH="/opt/quakeflow:${PYTHONPATH}"
+
+# Create working directory
+WORKDIR /home/jovyan/work
+
+# Copy enhanced notebook templates
+COPY kubeflow/for_elyra/notebooks/*Enhanced*.ipynb /home/jovyan/work/templates/
+
+# Set up Jupyter configuration for better notebook handling
+RUN jupyter lab build --minimize=False
+
+# Create startup script for enhanced environment
+COPY kubeflow/scripts/startup-enhanced.sh /usr/local/bin/startup-enhanced.sh
+RUN chmod +x /usr/local/bin/startup-enhanced.sh
+
+# Expose Jupyter port
+EXPOSE 8888
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8888/api || exit 1
+
+# Set default command
+CMD ["startup-enhanced.sh"]

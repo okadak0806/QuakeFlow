@@ -14,6 +14,7 @@ from .coordinates import CoordinateTransform
 from .velocity_models import VelocityModel
 from .processors import PhaseNetProcessor, GammaProcessor, AdlocProcessor
 from .workflow import EarthquakeAnalysisWorkflow
+from .elyra_utils import ElyraUtils, notebook_setup, notebook_finalize
 from .cli import (
     add_common_arguments,
     add_phasenet_arguments,
@@ -37,6 +38,9 @@ __all__ = [
     "GammaProcessor", 
     "AdlocProcessor",
     "EarthquakeAnalysisWorkflow",
+    "ElyraUtils",
+    "notebook_setup",
+    "notebook_finalize",
     "add_common_arguments",
     "add_phasenet_arguments",
     "add_gamma_arguments",
