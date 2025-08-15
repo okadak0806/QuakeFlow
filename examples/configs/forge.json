@@ -1,0 +1,85 @@
+{
+  "region": "forge",
+  "description": "Configuration for FORGE geothermal field earthquake monitoring",
+  "geographic_bounds": {
+    "minlatitude": 38.4,
+    "maxlatitude": 38.6,
+    "minlongitude": -112.95,
+    "maxlongitude": -112.8
+  },
+  "velocity_model": {
+    "type": "simple",
+    "description": "Simple velocity model for geothermal field",
+    "vp": 5.5,
+    "vs": 3.18,
+    "vp_vs_ratio": 1.73
+  },
+  "processing": {
+    "phasenet": {
+      "model": "phasenet_original",
+      "batch_size": 1,
+      "threshold_p": 0.2,
+      "threshold_s": 0.2,
+      "input_format": "mseed",
+      "sampling_rate": 100,
+      "window_length": 30
+    },
+    "gamma": {
+      "vel": {"P": 5.5, "S": 3.18},
+      "dims": ["x_km", "y_km", "z_km"],
+      "use_amplitude": true,
+      "method": "BGMM",
+      "oversample_factor": 4,
+      "bfgs_bounds": [
+        [null, null], [null, null], [0, 10],
+        [null, null], [0, null], [0, null], [0, null]
+      ],
+      "dbscan_eps": 0.2,
+      "dbscan_min_samples": 3,
+      "min_picks_per_eq": 4,
+      "max_sigma11": 1.0,
+      "max_sigma22": 0.5,
+      "max_sigma12": 0.5
+    },
+    "adloc": {
+      "vel": {"P": 5.5, "S": 3.18},
+      "use_amplitude": true,
+      "method": "BFGS",
+      "use_station_term": true,
+      "cc_max": 0.6,
+      "method_magnitude": "ML"
+    }
+  },
+  "data_sources": {
+    "waveforms": {
+      "provider": "FORGE",
+      "format": "mseed",
+      "channels": ["HH*", "BH*", "EH*"]
+    },
+    "stations": {
+      "provider": "FORGE",
+      "format": "stationxml"
+    },
+    "catalog": {
+      "provider": "FORGE",
+      "format": "quakeml"
+    }
+  },
+  "output": {
+    "format": "csv",
+    "compression": "gzip",
+    "directory_structure": {
+      "picks": "picks",
+      "events": "events",
+      "stations": "stations",
+      "figures": "figures"
+    }
+  },
+  "quality_control": {
+    "min_magnitude": -1.0,
+    "max_depth": 10.0,
+    "min_picks_per_event": 4,
+    "max_residual_time": 2.0,
+    "max_residual_amplitude": 2.0
+  }
+}

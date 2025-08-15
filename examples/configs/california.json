@@ -1,0 +1,88 @@
+{
+  "region": "california",
+  "description": "Standard configuration for California earthquake data processing",
+  "geographic_bounds": {
+    "minlatitude": 32.0,
+    "maxlatitude": 43.0,
+    "minlongitude": -126.0,
+    "maxlongitude": -114.0
+  },
+  "velocity_model": {
+    "type": "layered_1d",
+    "description": "Standard NCEDC velocity model for California",
+    "layers": {
+      "depths": [0.0, 5.5, 16.0, 32.0],
+      "vp": [5.5, 5.5, 6.7, 7.8],
+      "vs": [3.18, 3.18, 3.87, 4.51]
+    },
+    "vp_vs_ratio": 1.73
+  },
+  "processing": {
+    "phasenet": {
+      "model": "phasenet_original",
+      "batch_size": 1,
+      "threshold_p": 0.3,
+      "threshold_s": 0.3,
+      "input_format": "mseed",
+      "sampling_rate": 100,
+      "window_length": 30
+    },
+    "gamma": {
+      "vel": {"P": 6.0, "S": 3.47},
+      "dims": ["x_km", "y_km", "z_km"],
+      "use_amplitude": true,
+      "method": "BGMM",
+      "oversample_factor": 4,
+      "bfgs_bounds": [
+        [null, null], [null, null], [0, 60],
+        [null, null], [0, null], [0, null], [0, null]
+      ],
+      "dbscan_eps": 0.5,
+      "dbscan_min_samples": 3,
+      "min_picks_per_eq": 8,
+      "max_sigma11": 2.0,
+      "max_sigma22": 1.0,
+      "max_sigma12": 1.0
+    },
+    "adloc": {
+      "vel": {"P": 6.0, "S": 3.47},
+      "use_amplitude": true,
+      "method": "BFGS",
+      "use_station_term": true,
+      "cc_max": 0.6,
+      "method_magnitude": "ML"
+    }
+  },
+  "data_sources": {
+    "waveforms": {
+      "provider": "NCEDC",
+      "format": "mseed",
+      "channels": ["HH*", "BH*", "EH*"]
+    },
+    "stations": {
+      "provider": "NCEDC",
+      "format": "stationxml"
+    },
+    "catalog": {
+      "provider": "NCEDC",
+      "format": "quakeml"
+    }
+  },
+  "output": {
+    "format": "csv",
+    "compression": "gzip",
+    "directory_structure": {
+      "picks": "picks",
+      "events": "events", 
+      "stations": "stations",
+      "figures": "figures"
+    }
+  },
+  "quality_control": {
+    "min_magnitude": 1.0,
+    "max_depth": 60.0,
+    "min_picks_per_event": 8,
+    "max_residual_time": 3.0,
+    "max_residual_amplitude": 2.0
+  }
+}
