@@ -577,6 +577,111 @@
           ]
         },
         {
+          "id": "catalog-comparison-node",
+          "type": "execution_node",
+          "op": "execute-notebook-node",
+          "app_data": {
+            "component_parameters": {
+              "dependencies": [
+                "config/config.json",
+                "stations/stations.json",
+                "gamma/gamma_catalog_filtered.csv",
+                "gamma/gamma_picks_filtered.csv"
+              ],
+              "include_subdirectories": true,
+              "outputs": [
+                "comparison/reference_catalog.csv",
+                "comparison/detected_catalog.csv",
+                "comparison/event_matches.csv",
+                "comparison/unmatched_reference.csv",
+                "comparison/unmatched_detected.csv",
+                "comparison/performance_metrics.json",
+                "comparison/comparison_report.html",
+                "comparison/figures/event_locations_comparison.png",
+                "comparison/figures/performance_metrics.png",
+                "comparison/figures/parameter_residuals.png",
+                "comparison/figures/magnitude_performance.png"
+              ],
+              "env_vars": [
+                {
+                  "env_var": "REFERENCE_SOURCE",
+                  "value": "usgs"
+                },
+                {
+                  "env_var": "MIN_MAGNITUDE",
+                  "value": "2.0"
+                },
+                {
+                  "env_var": "TIME_WINDOW",
+                  "value": "30.0"
+                },
+                {
+                  "env_var": "DISTANCE_THRESHOLD", 
+                  "value": "10.0"
+                },
+                {
+                  "env_var": "ELYRA_RUNTIME_ENV"
+                }
+              ],
+              "kubernetes_pod_annotations": [],
+              "kubernetes_pod_labels": [
+                {
+                  "key": "quakeflow.step",
+                  "value": "catalog-comparison"
+                }
+              ],
+              "kubernetes_secrets": [],
+              "kubernetes_shared_mem_size": {},
+              "kubernetes_tolerations": [],
+              "mounted_volumes": [],
+              "filename": "Catalog_Comparison_Enhanced.ipynb",
+              "runtime_image": "okadak86/quakeflow-enhanced:2.0"
+            },
+            "ui_data": {
+              "label": "Catalog Comparison",
+              "image": "/static/elyra/notebook.svg",
+              "x_pos": 200,
+              "y_pos": 700,
+              "description": "Compare detected events with reference catalogs"
+            }
+          },
+          "inputs": [
+            {
+              "id": "inPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Input Port"
+                }
+              },
+              "links": [
+                {
+                  "id": "gamma-to-comparison-link",
+                  "node_id_ref": "gamma-processing-node",
+                  "port_id_ref": "outPort"
+                }
+              ]
+            }
+          ],
+          "outputs": [
+            {
+              "id": "outPort",
+              "app_data": {
+                "ui_data": {
+                  "cardinality": {
+                    "min": 0,
+                    "max": -1
+                  },
+                  "label": "Output Port"
+                }
+              }
+            }
+          ]
+        },
+        {
           "id": "visualization-node",
           "type": "execution_node", 
           "op": "execute-notebook-node",
@@ -587,7 +692,8 @@
                 "stations/stations.json",
                 "events/standard_catalog.csv",
                 "gamma/gamma_catalog_filtered.csv",
-                "adloc/events_adloc.csv"
+                "adloc/events_adloc.csv",
+                "comparison/comparison_report.html"
               ],
               "include_subdirectories": true,
               "outputs": [
@@ -620,7 +726,7 @@
               "label": "Universal Visualization",
               "image": "/static/elyra/notebook.svg",
               "x_pos": 400,
-              "y_pos": 700,
+              "y_pos": 900,
               "description": "Comprehensive visualization and reporting"
             }
           },
@@ -640,6 +746,11 @@
                 {
                   "id": "adloc-to-visualization-link",
                   "node_id_ref": "adloc-processing-node",
+                  "port_id_ref": "outPort"
+                },
+                {
+                  "id": "comparison-to-visualization-link", 
+                  "node_id_ref": "catalog-comparison-node",
                   "port_id_ref": "outPort"
                 }
               ]
@@ -670,7 +781,7 @@
               "y_pos": 50,
               "width": 250,
               "height": 140,
-              "content": "Enhanced Universal Earthquake Analysis Pipeline\n\nFeatures:\n• Region-agnostic configuration\n• Automatic data source detection\n• Complete PhaseNet → GaMMA → ADLoc workflow\n• Advanced quality control and visualization\n• Kubeflow UI integration\n• Scalable parallel processing",
+              "content": "Enhanced Universal Earthquake Analysis Pipeline\n\nFeatures:\n• Region-agnostic configuration\n• Automatic data source detection\n• Complete PhaseNet → GaMMA → ADLoc workflow\n• Catalog comparison and validation\n• Advanced quality control and visualization\n• Kubeflow UI integration\n• Scalable parallel processing",
               "associated_id_refs": []
             },
             {
@@ -712,7 +823,7 @@
             "kubernetes_secrets": [],
             "runtime_image": "okadak86/quakeflow-enhanced:2.0"
           },
-          "description": "Universal enhanced earthquake data processing pipeline that automatically adapts to different regions with complete PhaseNet → GaMMA → ADLoc workflow, advanced quality control, and comprehensive visualization"
+          "description": "Universal enhanced earthquake data processing pipeline that automatically adapts to different regions with complete PhaseNet → GaMMA → ADLoc workflow, catalog comparison and validation, advanced quality control, and comprehensive visualization"
         }
       },
       "runtime_ref": ""

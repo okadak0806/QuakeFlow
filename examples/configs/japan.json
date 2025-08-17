@@ -19,13 +19,24 @@
   },
   "processing": {
     "phasenet": {
-      "model": "phasenet_original",
+      "model": "phasenet_japan",
+      "model_path": "/app/models/phasenet_japan.h5",
       "batch_size": 1,
-      "threshold_p": 0.3,
-      "threshold_s": 0.3,
+      "threshold_p": 0.25,
+      "threshold_s": 0.25,
       "input_format": "mseed",
       "sampling_rate": 100,
-      "window_length": 30
+      "window_length": 30,
+      "japan_specific": true,
+      "preprocessing": {
+        "detrend": true,
+        "taper": 0.05,
+        "filter": {
+          "type": "bandpass",
+          "freqmin": 1.0,
+          "freqmax": 45.0
+        }
+      }
     },
     "gamma": {
       "vel": {"P": 6.0, "S": 3.47},

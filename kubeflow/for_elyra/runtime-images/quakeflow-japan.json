@@ -1,0 +1,26 @@
+{
+    "name": "quakeflow-japan",
+    "display_name": "QuakeFlow Japan Runtime v2.0",
+    "image_name": "okadak86/quakeflow-japan:2.0",
+    "pull_policy": "IfNotPresent",
+    "description": "Specialized QuakeFlow runtime optimized for Japan earthquake data processing with Hi-net integration and Japan-specific PhaseNet model",
+    "metadata": {
+        "tags": ["earthquake", "seismology", "japan", "hi-net", "jma", "phasenet", "enhanced"],
+        "display_name": "QuakeFlow Japan Runtime v2.0",
+        "image_name": "okadak86/quakeflow-japan:2.0",
+        "pull_policy": "IfNotPresent",
+        "description": "Specialized QuakeFlow runtime optimized for Japan earthquake data processing with Hi-net integration and Japan-specific PhaseNet model",
+        "region": "japan",
+        "data_sources": ["Hi-net", "JMA", "NIED"],
+        "phasenet_model": "phasenet_japan",
+        "features": [
+            "Japan-specific PhaseNet model",
+            "Hi-net data integration", 
+            "JMA catalog comparison",
+            "Japanese locale support",
+            "Optimized for subduction zone seismicity"
+        ]
+    },
+    "schema_name": "runtime-image",
+    "resource": "/home/okadak/.local/share/jupyter/metadata/runtime-images/quakeflow-japan.json"
+}

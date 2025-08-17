@@ -15,6 +15,14 @@ from .velocity_models import VelocityModel
 from .processors import PhaseNetProcessor, GammaProcessor, AdlocProcessor
 from .workflow import EarthquakeAnalysisWorkflow
 from .elyra_utils import ElyraUtils, notebook_setup, notebook_finalize
+from .catalog_comparison import CatalogComparison
+
+# Optional SeisBench integration
+try:
+    from .seisbench_processor import SeisbenchPhaseNetProcessor
+    HAS_SEISBENCH = True
+except ImportError:
+    HAS_SEISBENCH = False
 from .cli import (
     add_common_arguments,
     add_phasenet_arguments,

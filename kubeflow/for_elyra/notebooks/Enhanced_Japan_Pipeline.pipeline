@@ -58,7 +58,7 @@
               "kubernetes_tolerations": [],
               "mounted_volumes": [],
               "filename": "Set_Config_Enhanced.ipynb",
-              "runtime_image": "okadak86/quakeflow-enhanced:2.0"
+              "runtime_image": "okadak86/quakeflow-japan:2.0"
             },
             "ui_data": {
               "label": "Enhanced Config Setup (Japan)",
@@ -133,7 +133,7 @@
               "kubernetes_tolerations": [],
               "mounted_volumes": [],
               "filename": "Download_Event.ipynb",
-              "runtime_image": "okadak86/quakeflow-enhanced:2.0"
+              "runtime_image": "okadak86/quakeflow-japan:2.0"
             },
             "ui_data": {
               "label": "Download Events (JMA)",
@@ -215,7 +215,7 @@
               "kubernetes_tolerations": [],
               "mounted_volumes": [],
               "filename": "Download_Stations.ipynb",
-              "runtime_image": "okadak86/quakeflow-enhanced:2.0"
+              "runtime_image": "okadak86/quakeflow-japan:2.0"
             },
             "ui_data": {
               "label": "Download Stations (Hi-net)",
@@ -297,7 +297,7 @@
               "kubernetes_tolerations": [],
               "mounted_volumes": [],
               "filename": "Download_Waveform_data.ipynb",
-              "runtime_image": "okadak86/quakeflow-enhanced:2.0"
+              "runtime_image": "okadak86/quakeflow-japan:2.0"
             },
             "ui_data": {
               "label": "Download Waveforms (Hi-net)",
@@ -344,7 +344,7 @@
           ]
         },
         {
-          "id": "phasenet-processing-node",
+          "id": "phasenet-seisbench-node",
           "type": "execution_node",
           "op": "execute-notebook-node",
           "app_data": {
@@ -357,12 +357,27 @@
               ],
               "include_subdirectories": true,
               "outputs": [
-                "phasenet/picks.csv",
-                "phasenet/processing_summary.json"
+                "phasenet_seisbench/picks_seisbench.csv",
+                "phasenet_seisbench/processing_summary.json",
+                "phasenet_seisbench/quality_metrics.png",
+                "phasenet_seisbench/model_diagnostics.json",
+                "phasenet_seisbench/final_summary.json"
               ],
               "env_vars": [
                 {
                   "env_var": "ELYRA_RUNTIME_ENV"
+                },
+                {
+                  "env_var": "PHASENET_MODEL_TYPE",
+                  "value": "seisbench"
+                },
+                {
+                  "env_var": "DEVICE",
+                  "value": "auto"
+                },
+                {
+                  "env_var": "BATCH_SIZE",
+                  "value": "32"
                 }
               ],
               "kubernetes_pod_annotations": [],
@@ -373,22 +388,28 @@
                 },
                 {
                   "key": "quakeflow.step",
-                  "value": "phasenet"
+                  "value": "phasenet-seisbench"
+                },
+                {
+                  "key": "quakeflow.model",
+                  "value": "pytorch"
                 }
               ],
               "kubernetes_secrets": [],
-              "kubernetes_shared_mem_size": {},
+              "kubernetes_shared_mem_size": {
+                "size": "1Gi"
+              },
               "kubernetes_tolerations": [],
               "mounted_volumes": [],
-              "filename": "Run_PhaseNet_Enhanced.ipynb",
-              "runtime_image": "okadak86/phasenet-api:2.0"
+              "filename": "Run_PhaseNet_Seisbench_Enhanced.ipynb",
+              "runtime_image": "okadak86/quakeflow-seisbench:2.0"
             },
             "ui_data": {
-              "label": "Enhanced PhaseNet (Japan)",
+              "label": "SeisBench PhaseNet (Japan)",
               "image": "/static/elyra/notebook.svg",
               "x_pos": 400,
               "y_pos": 300,
-              "description": "Enhanced PhaseNet with Japan-specific configuration"
+              "description": "PyTorch-based PhaseNet with SeisBench for Japanese earthquake data"
             }
           },
           "inputs": [
@@ -405,7 +426,7 @@
               },
               "links": [
                 {
-                  "id": "waveforms-to-phasenet-link",
+                  "id": "waveforms-to-seisbench-link",
                   "node_id_ref": "download-waveforms-node",
                   "port_id_ref": "outPort"
                 }
@@ -436,7 +457,7 @@
               "dependencies": [
                 "config/config.json",
                 "config/index.json",
-                "phasenet/picks.csv",
+                "phasenet_seisbench/picks_seisbench.csv",
                 "stations/stations.json"
               ],
               "include_subdirectories": true,
@@ -495,8 +516,8 @@
               },
               "links": [
                 {
-                  "id": "phasenet-to-gamma-link",
-                  "node_id_ref": "phasenet-processing-node",
+                  "id": "seisbench-to-gamma-link",
+                  "node_id_ref": "phasenet-seisbench-node",
                   "port_id_ref": "outPort"
                 }
               ]
@@ -559,7 +580,7 @@
               "kubernetes_tolerations": [],
               "mounted_volumes": [],
               "filename": "Plot_catalog_on_Kubeflow.ipynb",
-              "runtime_image": "okadak86/quakeflow-enhanced:2.0"
+              "runtime_image": "okadak86/quakeflow-japan:2.0"
             },
             "ui_data": {
               "label": "Japan Visualization",
