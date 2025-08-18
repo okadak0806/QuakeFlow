@@ -1,0 +1,9 @@
+{
+  "step_name": "config_setup",
+  "region": "california",
+  "artifacts": [
+    "config/config.json",
+    "config/datetime.json"
+  ],
+  "timestamp": "/Users/okadamac/work/QuakeFlow"
+}

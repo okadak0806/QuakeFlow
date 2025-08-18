@@ -1,0 +1,35 @@
+{
+  "name": "phasenet-comparison-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for comparing PhaseNet detections with JMA/USGS earthquake catalogs",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mcp",
+    "earthquake",
+    "phasenet",
+    "jma",
+    "usgs",
+    "comparison",
+    "seismology"
+  ],
+  "author": "QuakeFlow Team",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "axios": "^1.6.0",
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0",
+    "date-fns": "^3.0.0",
+    "fast-xml-parser": "^4.3.0",
+    "haversine": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  }
+}

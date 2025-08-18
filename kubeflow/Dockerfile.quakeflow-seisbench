@@ -1,0 +1,174 @@
+# Enhanced QuakeFlow Runtime with SeisBench PyTorch Stack
+FROM pytorch/pytorch:2.1.0-cuda12.1-cudnn8-devel
+
+LABEL maintainer="QuakeFlow Team"
+LABEL description="Enhanced QuakeFlow runtime with SeisBench PyTorch stack for advanced ML earthquake processing"
+LABEL version="2.0-seisbench"
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0 7.5 8.0 8.6+PTX"
+ENV FORCE_CUDA="1"
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    wget \
+    curl \
+    build-essential \
+    cmake \
+    pkg-config \
+    libfftw3-dev \
+    libhdf5-dev \
+    libnetcdf-dev \
+    libproj-dev \
+    libgeos-dev \
+    libspatialindex-dev \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libxext6 \
+    libsm6 \
+    libxrender1 \
+    libfontconfig1 \
+    fonts-dejavu \
+    locales \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Japanese locale
+RUN locale-gen ja_JP.UTF-8
+ENV LANG=ja_JP.UTF-8
+ENV LC_ALL=ja_JP.UTF-8
+
+# Set working directory
+WORKDIR /app
+
+# Install Python dependencies
+COPY requirements-seisbench.txt /app/
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN pip install --no-cache-dir -r requirements-seisbench.txt
+
+# Install additional geospatial libraries
+RUN pip install --no-cache-dir \
+    cartopy \
+    contextily \
+    rasterio \
+    fiona
+
+# Create directory structure
+RUN mkdir -p /app/{models,data,configs,examples,logs}
+
+# Copy QuakeFlow common libraries
+COPY examples/common /app/examples/common
+COPY examples/configs /app/configs
+
+# Download and setup SeisBench models
+RUN python -c "
+import seisbench.models as sbm
+print('Downloading SeisBench models...')
+try:
+    # Download standard PhaseNet models
+    model = sbm.PhaseNet.from_pretrained('phasenet_original')
+    print('✅ PhaseNet original downloaded')
+    
+    model = sbm.PhaseNet.from_pretrained('phasenet_stead')
+    print('✅ PhaseNet STEAD downloaded')
+    
+    # Try to download DAS model if available
+    try:
+        model = sbm.PhaseNet.from_pretrained('phasenet_das')
+        print('✅ PhaseNet DAS downloaded')
+    except:
+        print('⚠️ PhaseNet DAS not available')
+        
+except Exception as e:
+    print(f'⚠️ Model download error: {e}')
+"
+
+# Create model directory structure
+RUN mkdir -p /app/models/{pretrained,fine_tuned,japan_specific}
+
+# Set up Jupyter configuration
+RUN mkdir -p /root/.jupyter
+RUN echo "c.ServerApp.token = ''" > /root/.jupyter/jupyter_server_config.py
+RUN echo "c.ServerApp.password = ''" >> /root/.jupyter/jupyter_server_config.py
+RUN echo "c.ServerApp.open_browser = False" >> /root/.jupyter/jupyter_server_config.py
+RUN echo "c.ServerApp.ip = '0.0.0.0'" >> /root/.jupyter/jupyter_server_config.py
+RUN echo "c.ServerApp.port = 8888" >> /root/.jupyter/jupyter_server_config.py
+RUN echo "c.ServerApp.allow_root = True" >> /root/.jupyter/jupyter_server_config.py
+
+# Install Jupyter extensions for ML
+RUN pip install --no-cache-dir \
+    jupyterlab-widgets \
+    ipywidgets \
+    jupyter-dash \
+    jupyterlab-git
+
+# Create startup script
+RUN cat > /app/startup-seisbench.sh << 'EOF'
+#!/bin/bash
+echo "🧠 Starting QuakeFlow SeisBench Runtime..."
+echo "PyTorch version: $(python -c 'import torch; print(torch.__version__)')"
+echo "CUDA available: $(python -c 'import torch; print(torch.cuda.is_available())')"
+
+if python -c 'import torch; torch.cuda.is_available()' | grep -q True; then
+    echo "GPU device: $(python -c 'import torch; print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else \"None\")')"
+    echo "CUDA memory: $(python -c 'import torch; print(f\"{torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB\" if torch.cuda.is_available() else \"N/A\")')"
+fi
+
+echo "SeisBench version: $(python -c 'import seisbench; print(seisbench.__version__)')"
+
+# Verify SeisBench installation
+python -c "
+import seisbench.models as sbm
+print('Available SeisBench models:')
+for model_name in sbm.model_list():
+    print(f'  - {model_name}')
+"
+
+# Set environment variables
+export REGION_NAME=${REGION_NAME:-japan}
+export PHASENET_MODEL_TYPE=${PHASENET_MODEL_TYPE:-seisbench}
+export DEVICE=${DEVICE:-auto}
+export BATCH_SIZE=${BATCH_SIZE:-32}
+
+echo "Environment configured:"
+echo "  Region: $REGION_NAME"
+echo "  PhaseNet Model Type: $PHASENET_MODEL_TYPE"
+echo "  Device: $DEVICE"
+echo "  Batch Size: $BATCH_SIZE"
+
+# Add examples to Python path
+export PYTHONPATH="/app/examples:$PYTHONPATH"
+
+exec "$@"
+EOF
+
+RUN chmod +x /app/startup-seisbench.sh
+
+# Set environment variables
+ENV REGION_NAME=japan
+ENV PHASENET_MODEL_TYPE=seisbench
+ENV DEVICE=auto
+ENV BATCH_SIZE=32
+ENV PYTHONPATH="/app/examples:$PYTHONPATH"
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
+    CMD python -c "
+import torch
+import seisbench
+print('Health check: PyTorch + SeisBench OK')
+" || exit 1
+
+# Set entrypoint
+ENTRYPOINT ["/app/startup-seisbench.sh"]
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
+
+# Metadata
+LABEL org.opencontainers.image.title="QuakeFlow SeisBench Runtime"
+LABEL org.opencontainers.image.description="Enhanced QuakeFlow runtime with SeisBench PyTorch stack for ML earthquake processing"
+LABEL org.opencontainers.image.version="2.0-seisbench"
+LABEL org.opencontainers.image.authors="QuakeFlow Team"
+LABEL seisbench.version="0.4.0+"
+LABEL pytorch.version="2.1.0+"

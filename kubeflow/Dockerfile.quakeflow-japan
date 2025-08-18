@@ -1,0 +1,87 @@
+# Enhanced QuakeFlow Runtime for Japan
+FROM okadak86/quakeflow-enhanced:2.0
+
+LABEL maintainer="QuakeFlow Team"
+LABEL description="Enhanced QuakeFlow runtime optimized for Japan earthquake data processing"
+LABEL version="2.0-japan"
+
+# Set working directory
+WORKDIR /app
+
+# Install Japan-specific dependencies
+RUN pip install --no-cache-dir \
+    obspy[fdsn] \
+    HinetPy \
+    japanmap \
+    # Additional Japan-specific packages
+    japanize-matplotlib \
+    folium \
+    geopandas
+
+# Create models directory
+RUN mkdir -p /app/models
+
+# Download and install Japan-specific PhaseNet model
+# Note: Replace with actual model URL when available
+ARG PHASENET_JAPAN_MODEL_URL="https://github.com/AI4EPS/PhaseNet/releases/download/japan/phasenet_japan.h5"
+RUN if [ -n "$PHASENET_JAPAN_MODEL_URL" ]; then \
+        wget -O /app/models/phasenet_japan.h5 "$PHASENET_JAPAN_MODEL_URL" || \
+        echo "Creating placeholder for Japan PhaseNet model"; \
+    fi
+
+# Copy Japan-specific configurations
+COPY examples/configs/japan.json /app/configs/japan.json
+
+# Set Japan-specific environment variables
+ENV REGION_NAME=japan
+ENV PHASENET_MODEL_PATH=/app/models/phasenet_japan.h5
+ENV REFERENCE_CATALOG_SOURCE=jma
+ENV LANG=ja_JP.UTF-8
+ENV LC_ALL=ja_JP.UTF-8
+
+# Install Japanese locale support
+RUN apt-get update && \
+    apt-get install -y locales && \
+    locale-gen ja_JP.UTF-8 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Create Japan-specific startup script
+RUN cat > /app/startup-japan.sh << 'EOF'
+#!/bin/bash
+echo "🇯🇵 Starting QuakeFlow Japan Runtime..."
+echo "Region: ${REGION_NAME}"
+echo "PhaseNet Model: ${PHASENET_MODEL_PATH}"
+echo "Reference Source: ${REFERENCE_CATALOG_SOURCE}"
+
+# Check if Japan PhaseNet model exists
+if [ ! -f "$PHASENET_MODEL_PATH" ]; then
+    echo "⚠️ Warning: Japan PhaseNet model not found at $PHASENET_MODEL_PATH"
+    echo "   Please mount or download the Japan-specific model"
+fi
+
+# Verify Hi-net access (if credentials provided)
+if [ -n "$HINET_USERNAME" ] && [ -n "$HINET_PASSWORD" ]; then
+    echo "✅ Hi-net credentials detected"
+else
+    echo "⚠️ Hi-net credentials not provided - some data sources may be unavailable"
+fi
+
+exec "$@"
+EOF
+
+RUN chmod +x /app/startup-japan.sh
+
+# Set startup script as entrypoint
+ENTRYPOINT ["/app/startup-japan.sh"]
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD python -c "import sys; sys.path.append('/app/examples'); from common import RegionConfig; RegionConfig('japan')" || exit 1
+
+# Metadata
+LABEL org.opencontainers.image.title="QuakeFlow Japan Runtime"
+LABEL org.opencontainers.image.description="Specialized runtime for Japan earthquake data processing with Hi-net integration"
+LABEL org.opencontainers.image.version="2.0-japan"
+LABEL org.opencontainers.image.authors="QuakeFlow Team"

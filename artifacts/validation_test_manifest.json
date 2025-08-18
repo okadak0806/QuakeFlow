@@ -1,0 +1,8 @@
+{
+  "step_name": "validation_test",
+  "region": "california",
+  "artifacts": [
+    "test/output.json"
+  ],
+  "timestamp": "/Users/okadamac/work/QuakeFlow"
+}

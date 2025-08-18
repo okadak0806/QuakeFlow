@@ -1,0 +1,9 @@
+{
+  "step_name": "phasenet_processing",
+  "region": "california",
+  "artifacts": [
+    "phasenet/picks.csv",
+    "phasenet/processing_summary.json"
+  ],
+  "timestamp": "/Users/okadamac/work/QuakeFlow"
+}

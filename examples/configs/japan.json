@@ -1,0 +1,99 @@
+{
+  "region": "japan",
+  "description": "Standard configuration for Japan earthquake data processing",
+  "geographic_bounds": {
+    "minlatitude": 30.0,
+    "maxlatitude": 46.0,
+    "minlongitude": 129.0,
+    "maxlongitude": 146.0
+  },
+  "velocity_model": {
+    "type": "layered_1d",
+    "description": "JMA velocity model for Japan",
+    "layers": {
+      "depths": [0.0, 3.0, 16.0, 32.0],
+      "vp": [5.5, 6.0, 6.7, 7.8],
+      "vs": [3.18, 3.47, 3.87, 4.51]
+    },
+    "vp_vs_ratio": 1.73
+  },
+  "processing": {
+    "phasenet": {
+      "model": "phasenet_japan",
+      "model_path": "/app/models/phasenet_japan.h5",
+      "batch_size": 1,
+      "threshold_p": 0.25,
+      "threshold_s": 0.25,
+      "input_format": "mseed",
+      "sampling_rate": 100,
+      "window_length": 30,
+      "japan_specific": true,
+      "preprocessing": {
+        "detrend": true,
+        "taper": 0.05,
+        "filter": {
+          "type": "bandpass",
+          "freqmin": 1.0,
+          "freqmax": 45.0
+        }
+      }
+    },
+    "gamma": {
+      "vel": {"P": 6.0, "S": 3.47},
+      "dims": ["x_km", "y_km", "z_km"],
+      "use_amplitude": true,
+      "method": "BGMM",
+      "oversample_factor": 4,
+      "bfgs_bounds": [
+        [null, null], [null, null], [0, 70],
+        [null, null], [0, null], [0, null], [0, null]
+      ],
+      "dbscan_eps": 0.5,
+      "dbscan_min_samples": 3,
+      "min_picks_per_eq": 6,
+      "max_sigma11": 2.0,
+      "max_sigma22": 1.0,
+      "max_sigma12": 1.0
+    },
+    "adloc": {
+      "vel": {"P": 6.0, "S": 3.47},
+      "use_amplitude": true,
+      "method": "BFGS",
+      "use_station_term": true,
+      "cc_max": 0.6,
+      "method_magnitude": "ML"
+    }
+  },
+  "data_sources": {
+    "waveforms": {
+      "provider": "Hi-net",
+      "format": "mseed",
+      "channels": ["HH*", "BH*", "EH*"]
+    },
+    "stations": {
+      "provider": "Hi-net",
+      "format": "stationxml"
+    },
+    "catalog": {
+      "provider": "JMA",
+      "format": "quakeml"
+    }
+  },
+  "output": {
+    "format": "csv",
+    "compression": "gzip",
+    "directory_structure": {
+      "picks": "picks",
+      "events": "events",
+      "stations": "stations", 
+      "figures": "figures"
+    }
+  },
+  "quality_control": {
+    "min_magnitude": 1.0,
+    "max_depth": 70.0,
+    "min_picks_per_event": 6,
+    "max_residual_time": 3.0,
+    "max_residual_amplitude": 2.0
+  }
+}

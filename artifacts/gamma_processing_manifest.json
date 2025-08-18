@@ -1,0 +1,10 @@
+{
+  "step_name": "gamma_processing",
+  "region": "california",
+  "artifacts": [
+    "gamma/gamma_catalog.csv",
+    "gamma/gamma_picks.csv",
+    "gamma/figures/event_locations.png"
+  ],
+  "timestamp": "/Users/okadamac/work/QuakeFlow"
+}

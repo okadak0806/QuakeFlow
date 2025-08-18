@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "phasenet-comparison": {
+      "command": "node",
+      "args": ["src/index.js"],
+      "cwd": ".",
+      "env": {}
+    }
+  }
+}
